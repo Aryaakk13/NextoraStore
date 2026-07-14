@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NextoraSMP — Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700;800&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+</head>
+<body>
+
+<header id="siteHeader">
+  <nav>
+    <div class="logo">
+      <div class="logo-block"></div>
+      <span>NEXTORA<em>SMP</em></span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#ranks">Rank</a></li>
+      <li><a href="#gems">Gems</a></li>
+      <li><a href="#vote">Vote</a></li>
+      <li><a href="#leaderboard">Leaderboard</a></li>
+    </ul>
+    <div class="nav-cta">
+      <button class="pixel-btn yellow pixel-border" id="ip-btn" onclick="copyIP()">play.nextorasmp.net</button>
+      <button class="burger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+
+<section class="hero" id="home">
+  <div class="cloud-strip"></div>
+  <div class="floating-block fb1"></div>
+  <div class="floating-block fb2"></div>
+  <div class="floating-block fb3"></div>
+  <div class="floating-block fb4"></div>
+  <div class="container">
+    <span class="badge" id="statusBadge"><span class="badge-dot" id="statusDot"></span> <span id="statusText">Mengecek status server...</span></span>
+    <h1>Bangun Duniamu di <em>NextoraSMP</em></h1>
+    <p>Survival Multiplayer dengan komunitas ramah, event mingguan, dan ekonomi server yang hidup. Gabung sekarang dan tulis ceritamu sendiri.</p>
+    <div class="hero-cta">
+      <a href="#ranks" class="pixel-btn yellow pixel-border">Lihat Rank</a>
+      <a href="#vote" class="pixel-btn outline pixel-border">Vote Server</a>
+    </div>
+    <div class="ip-card">
+      <span class="mono">play.nextorasmp.net</span>
+      <button onclick="copyIP()">Copy IP</button>
+    </div>
+    <div class="stat-row">
+      <div><div class="num" id="statOnline">—</div><div class="lbl">Online Sekarang</div></div>
+      <div><div class="num">12.4K</div><div class="lbl">Total Player</div></div>
+      <div><div class="num">1.8</div><div class="lbl">Java &amp; Bedrock</div></div>
+      <div><div class="num">24/7</div><div class="lbl">Server Uptime</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="ranks">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Server Rank</div>
+      <h2>Tingkatkan Pengalaman Bermainmu</h2>
+      <p>Setiap rank memberi akses fitur eksklusif, dari kit harian sampai perk kreatif. Semua pembelian bersifat permanen.</p>
+    </div>
+    <div class="rank-grid">
+
+      <div class="rank-card reveal">
+        <div class="ore-swatch ore-iron"></div>
+        <h3>IRON — VIP</h3>
+        <div class="rank-price">Rp25K <span>/ sekali bayar</span></div>
+        <ul class="rank-perks">
+          <li>Kit VIP harian</li>
+          <li>Prefix [VIP] berwarna</li>
+          <li>3 Homes tambahan</li>
+          <li>Akses /kit vip</li>
+          <li>Akses fly di lobby</li>
+        </ul>
+        <button class="pixel-btn pixel-border" onclick="openRankModal('vip')">Beli Sekarang</button>
+      </div>
+
+      <div class="rank-card featured reveal">
+        <span class="featured-tag">TERLARIS</span>
+        <div class="ore-swatch ore-gold"></div>
+        <h3>GOLD — MVP</h3>
+        <div class="rank-price">Rp50K <span>/ sekali bayar</span></div>
+        <ul class="rank-perks">
+          <li>Semua perk IRON</li>
+          <li>Kit MVP harian + mingguan</li>
+          <li>6 Homes tambahan</li>
+          <li>Akses /kit mvp &amp; /fly survival</li>
+          <li>Slot khusus saat server penuh</li>
+        </ul>
+        <button class="pixel-btn yellow pixel-border" onclick="openRankModal('mvp')">Beli Sekarang</button>
+      </div>
+
+      <div class="rank-card reveal">
+        <div class="ore-swatch ore-diamond"></div>
+        <h3>DIAMOND — ELITE</h3>
+        <div class="rank-price">Rp100K <span>/ sekali bayar</span></div>
+        <ul class="rank-perks">
+          <li>Semua perk GOLD</li>
+          <li>10 Homes tambahan</li>
+          <li>Akses /workbench &amp; /enderchest</li>
+          <li>Particle effect kustom</li>
+          <li>Akses area build ELITE</li>
+        </ul>
+        <button class="pixel-btn pixel-border" onclick="openRankModal('elite')">Beli Sekarang</button>
+      </div>
+
+      <div class="rank-card reveal">
+        <div class="ore-swatch ore-netherite"></div>
+        <h3>NETHERITE — LEGEND</h3>
+        <div class="rank-price">Rp200K <span>/ sekali bayar</span></div>
+        <ul class="rank-perks">
+          <li>Semua perk DIAMOND</li>
+          <li>Homes tanpa batas</li>
+          <li>Tag [LEGEND] bercahaya</li>
+          <li>Akses channel Discord eksklusif</li>
+          <li>Prioritas review event server</li>
+        </ul>
+        <button class="pixel-btn pixel-border" onclick="openRankModal('legend')">Beli Sekarang</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section alt" id="gems">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Mata Uang Server</div>
+      <h2>Top Up Gems</h2>
+      <p>Gems dipakai untuk belanja di /shop, lelang item langka, dan cosmetic. Makin besar paket, makin hemat harganya.</p>
+    </div>
+    <div class="gems-wrap">
+      <div class="gem-grid" id="gemGrid"></div>
+      <div class="gem-summary reveal">
+        <h3>Ringkasan Pembelian</h3>
+        <div class="sum-row"><span>Paket dipilih</span><strong id="sumPkg">—</strong></div>
+        <div class="sum-row"><span>Jumlah Gems</span><strong id="sumGems">0</strong></div>
+        <div class="sum-row"><span>Bonus Gems</span><strong id="sumBonus">0</strong></div>
+        <div class="sum-total"><span>Total Bayar</span><strong id="sumTotal">Rp0</strong></div>
+        <button class="pixel-btn yellow pixel-border" onclick="openGemsModal()">Checkout</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="vote">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Dukung Server</div>
+      <h2>Vote NextoraSMP</h2>
+      <p>Vote setiap hari di Minecraft-MP, klaim reward gems gratis lewat /vote di dalam server.</p>
+    </div>
+    <div class="vote-grid single">
+      <div class="vote-card reveal">
+        <div class="vote-num">1</div>
+        <h4>Minecraft-MP</h4>
+        <p>Vote harian, reset tiap jam 00:00 WIB. Klaim reward lewat /vote di server.</p>
+        <div id="voteTurnstile" class="turnstile-box"></div>
+        <div class="turnstile-hint" id="voteTurnstileHint">Selesaikan verifikasi dulu sebelum vote.</div>
+        <a href="https://vote.nextorasmp.net/mmp" target="_blank" id="voteBtn" class="pixel-btn pixel-border">Vote Sekarang</a>
+      </div>
+    </div>
+    <div class="vote-reward">
+      <p><strong>Reward tiap vote</strong>Dapatkan 150 Gems + tiket Vote Party setiap 20 vote komunitas.</p>
+      <a href="#leaderboard" class="pixel-btn outline pixel-border">Cek Top Voter</a>
+    </div>
+  </div>
+</section>
+
+<section class="section alt" id="leaderboard">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Papan Peringkat</div>
+      <h2>Leaderboard NextoraSMP</h2>
+      <p>Update otomatis setiap jam. Kejar posisi puncak dan dapatkan reward eksklusif tiap akhir musim.</p>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="vote" onclick="showTab('vote',this)">Top Vote</button>
+      <button class="tab-btn" data-tab="donate" onclick="showTab('donate',this)">Top Donate</button>
+      <button class="tab-btn" data-tab="balance" onclick="showTab('balance',this)">Top Balance</button>
+      <button class="tab-btn" data-tab="playtime" onclick="showTab('playtime',this)">Top Playtime</button>
+    </div>
+    <div class="lb-table reveal">
+      <div class="lb-row head"><span>#</span><span>Pemain</span><span style="text-align:right">Nilai</span></div>
+      <div id="lbBody"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <h4>NEXTORASMP</h4>
+      <p>Server Survival Multiplayer Indonesia. Fair play, komunitas solid, dan progress yang selalu berarti sejak 2023.</p>
+    </div>
+    <div>
+      <h4>Navigasi</h4>
+      <ul>
+        <li><a href="#ranks">Rank</a></li>
+        <li><a href="#gems">Gems</a></li>
+        <li><a href="#vote">Vote</a></li>
+        <li><a href="#leaderboard">Leaderboard</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Komunitas</h4>
+      <ul>
+        <li><a href="#">Discord Resmi</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Youtube</a></li>
+        <li><a href="#">Pusat Bantuan</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">© 2026 NextoraSMP. Tidak berafiliasi dengan Mojang atau Microsoft.</div>
+</footer>
+
+<!-- ---------- POPOUT MODAL ---------- -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

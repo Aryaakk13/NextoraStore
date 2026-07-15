@@ -257,6 +257,15 @@ nav{display:flex; align-items:center; justify-content:space-between; padding:14p
 .lb-avatar{width:26px; height:26px; border-radius:5px; background:linear-gradient(135deg,var(--blue),var(--diamond));}
 .lb-value{font-family:'Press Start 2P'; font-size:12px; color:var(--navy); text-align:right;}
 
+/* ---------- FAQ ---------- */
+.faq-list{max-width:720px; margin:0 auto; display:flex; flex-direction:column; gap:12px;}
+.faq-item{background:var(--white); border:2px solid #D7E3F3; border-radius:10px; overflow:hidden;}
+.faq-q{display:flex; align-items:center; justify-content:space-between; padding:16px 20px; cursor:pointer; font-weight:700; font-size:14px; color:var(--navy);}
+.faq-q .faq-arrow{transition:transform .2s ease; color:var(--blue);}
+.faq-item.open .faq-q .faq-arrow{transform:rotate(180deg);}
+.faq-a{max-height:0; overflow:hidden; transition:max-height .25s ease;}
+.faq-a p{padding:0 20px 16px; font-size:13.5px; color:var(--text-mute); line-height:1.7;}
+
 /* ---------- FOOTER ---------- */
 footer{background:var(--navy); color:var(--sky); padding:60px 24px 26px; margin-top:40px;}
 .foot-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:40px; max-width:1180px; margin:0 auto 40px;}
@@ -337,6 +346,15 @@ footer{background:var(--navy); color:var(--sky); padding:60px 24px 26px; margin-
 .item-recap .ir-price{font-size:12px; color:var(--blue); font-weight:700;}
 
 .field-label{font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--text-mute); margin-bottom:10px;}
+
+/* platform toggle (java/bedrock) */
+.platform-toggle{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:18px;}
+.platform-btn{
+  border:2px solid #D7E3F3; border-radius:8px; padding:12px 10px; text-align:center; cursor:pointer;
+  font-size:12.5px; font-weight:700; color:var(--navy); transition:.15s;
+}
+.platform-btn.active{border-color:var(--blue); background:var(--sky); color:var(--blue-deep);}
+
 .nick-input-row{display:flex; gap:8px; margin-bottom:8px;}
 .nick-input{
   flex:1; border:2px solid #D7E3F3; border-radius:8px; padding:12px 14px; font-size:14px; font-family:'Inter';
@@ -409,15 +427,34 @@ footer{background:var(--navy); color:var(--sky); padding:60px 24px 26px; margin-
   background:var(--navy); border-radius:12px; padding:24px; text-align:center; margin-bottom:18px;
 }
 .qr-frame{
-  width:190px; height:190px; margin:0 auto 16px; background:var(--white); border-radius:10px; padding:10px;
+  width:190px; height:190px; margin:0 auto 16px; background:var(--white); border-radius:10px; padding:6px;
   box-shadow:inset 3px 3px 0 rgba(255,255,255,.5), inset -3px -3px 0 rgba(0,0,0,.15);
+  overflow:hidden;
 }
-.qr-frame img{width:100%; height:100%; object-fit:contain;}
-.qr-amount{font-family:'Press Start 2P'; font-size:16px; color:var(--yellow); margin-bottom:8px;}
+.qr-frame img{width:100%; height:100%; object-fit:cover; object-position:top;}
+.qr-amount{font-family:'Press Start 2P'; font-size:15px; color:var(--yellow); margin-bottom:4px;}
+.qr-amount .unique{color:#FF8A80;}
+.qr-amount-note{font-size:11px; color:var(--sky); opacity:.75; margin-bottom:10px;}
 .qr-timer{font-family:'VT323',monospace; font-size:20px; color:var(--sky); letter-spacing:1px;}
 .qr-timer.warn{color:#FF8A80;}
 .qr-expired{color:#FF8A80; font-size:12px; font-weight:700; margin-top:8px;}
 .qr-note{font-size:11.5px; color:var(--text-mute); text-align:center; margin-bottom:16px; line-height:1.6;}
+.qr-warning{
+  background:#FFF4E5; border:1.5px solid #F5C177; color:#8A5A00; font-size:11.5px; padding:10px 12px;
+  border-radius:8px; margin-bottom:16px; line-height:1.6; text-align:left;
+}
+
+/* ---------- TRANSFER (E-WALLET MANUAL) ---------- */
+.transfer-box{background:var(--sky); border:2px solid var(--blue); border-radius:10px; padding:18px; margin-bottom:16px; text-align:center;}
+.transfer-number{font-family:'VT323',monospace; font-size:26px; color:var(--navy); letter-spacing:1px; margin:6px 0;}
+.transfer-owner{font-size:11.5px; color:var(--text-mute); margin-bottom:10px;}
+.copy-num-btn{
+  font-family:'Inter'; font-weight:700; font-size:12px; background:var(--navy); color:var(--white);
+  border:none; border-radius:7px; padding:8px 14px; cursor:pointer;
+}
+.transfer-amount-row{display:flex; justify-content:center; gap:6px; align-items:baseline; margin-top:10px;}
+.transfer-amount-row .amt{font-family:'Press Start 2P'; font-size:15px; color:var(--blue);}
+.transfer-amount-row .amt .unique{color:#E5484D;}
 
 /* ---------- WALLET LIST (step 3, e-wallet) ---------- */
 .wallet-list{display:flex; flex-direction:column; gap:10px; margin-bottom:18px;}
@@ -438,6 +475,16 @@ footer{background:var(--navy); color:var(--sky); padding:60px 24px 26px; margin-
 .processing-view h3{font-size:13px; color:var(--navy); margin-bottom:8px;}
 .processing-view p{font-size:12px; color:var(--text-mute);}
 
+/* ---------- TOASTS ---------- */
+.toast-stack{position:fixed; bottom:20px; right:20px; z-index:1200; display:flex; flex-direction:column; gap:10px;}
+.toast-item{
+  background:var(--navy); color:var(--white); padding:12px 18px; border-radius:8px; font-size:12.5px; font-weight:600;
+  box-shadow:4px 4px 0 rgba(11,30,61,.25); border-left:4px solid var(--yellow);
+  animation: toastIn .25s ease;
+  max-width:280px;
+}
+@keyframes toastIn{from{opacity:0; transform:translateX(30px);} to{opacity:1; transform:translateX(0);}}
+
 @media(max-width:920px){
   .rank-grid{grid-template-columns:repeat(2,1fr);}
   .gems-wrap{grid-template-columns:1fr;}
@@ -457,4 +504,6 @@ footer{background:var(--navy); color:var(--sky); padding:60px 24px 26px; margin-
   .lb-row{grid-template-columns:44px 1fr 90px; padding:12px 14px;}
   .stat-row{gap:28px;}
   .pay-methods{grid-template-columns:1fr;}
+  .toast-stack{left:20px; right:20px;}
+  .toast-item{max-width:none;}
 }

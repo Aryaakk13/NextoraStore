@@ -1,3 +1,18 @@
+// ---------- CONFIG — EDIT NILAI DI BAWAH INI ----------
+const CONFIG = {
+  serverIp: 'play.nextorasmp.my.id',
+  walletNumber: '0896-4707-6472',   // nomor tujuan GoPay/OVO/DANA/ShopeePay
+  walletOwner: 'NextoraSMP Store',
+  qrisImage: 'https://www.image2url.com/r2/default/images/1784095539988-dad196d6-67d8-4152-926d-2820744a0361.jpeg', // QRIS statis milikmu (dari ARVIE STORE)
+  qrisMerchant: 'ARVIE STORE',
+  // Isi dengan Discord Webhook URL channel admin/staff kamu supaya setiap
+  // pesanan langsung masuk notifikasi Discord (Server Settings > Integrations > Webhooks).
+  // Selama masih kosong, notifikasi otomatis ini dilewati (tidak error, cuma tidak terkirim).
+  discordWebhookUrl: 'https://discord.com/api/webhooks/1526834820724953160/A-GFlBYQEYlWeaay--Qwsbcl3-8dtMR3Bxgi_p_VY4JPz5UAonVV3PAiUgHGMCBPuTkn',
+  webhookUsername: 'NextoraSMP — Order Bot',
+  webhookAvatar: 'https://mc-heads.net/avatar/Steve/100',
+};
+
 // ---------- SCROLL EFFECTS (navbar shadow + reveal on scroll) ----------
 const siteHeader = document.getElementById('siteHeader');
 window.addEventListener('scroll', ()=>{
@@ -17,17 +32,25 @@ function observeReveals(root=document){
   root.querySelectorAll('.reveal:not(.in-view)').forEach(el=>revealObserver.observe(el));
 }
 
-// ---------- LIVE SERVER STATUS ----------
-const SERVER_IP = 'play.nextorasmp.net';
+// ---------- TOASTS ----------
+function showToast(msg, ms=3500){
+  const stack = document.getElementById('toastStack');
+  if(!stack) return;
+  const el = document.createElement('div');
+  el.className = 'toast-item';
+  el.textContent = msg;
+  stack.appendChild(el);
+  setTimeout(()=>{ el.style.transition='opacity .25s ease'; el.style.opacity='0'; setTimeout(()=>el.remove(),260); }, ms);
+}
 
+// ---------- LIVE SERVER STATUS ----------
 async function fetchServerStatus(){
   const badge = document.getElementById('statusBadge');
-  const dot = document.getElementById('statusDot');
   const text = document.getElementById('statusText');
   const statOnline = document.getElementById('statOnline');
 
   try{
-    const res = await fetch('https://api.mcsrvstat.us/3/' + SERVER_IP);
+    const res = await fetch('https://api.mcsrvstat.us/3/' + CONFIG.serverIp);
     const data = await res.json();
 
     if(data && data.online){
@@ -49,7 +72,7 @@ async function fetchServerStatus(){
 
 // ---------- IP COPY ----------
 function copyIP(){
-  const ip = "play.nextorasmp.net";
+  const ip = CONFIG.serverIp;
   if(navigator.clipboard){ navigator.clipboard.writeText(ip).catch(()=>{}); }
   const btn = document.getElementById('ip-btn');
   const old = btn.textContent;
@@ -65,10 +88,10 @@ const fmt = n => "Rp" + n.toLocaleString('id-ID');
 
 // ---------- RANK DATA ----------
 const rankData = {
-  vip:     {name:'IRON — VIP',        ore:'ore-iron',      price:25000},
-  mvp:     {name:'GOLD — MVP',        ore:'ore-gold',      price:50000},
-  elite:   {name:'DIAMOND — ELITE',   ore:'ore-diamond',   price:100000},
-  legend:  {name:'NETHERITE — LEGEND',ore:'ore-netherite', price:200000},
+  vip:     {name:'IRON — NEXTRA',      ore:'ore-iron',      price:25000},
+  mvp:     {name:'GOLD — NEXOR',       ore:'ore-gold',      price:50000},
+  elite:   {name:'DIAMOND — NEZITH',   ore:'ore-diamond',   price:100000},
+  legend:  {name:'NETHERITE — NEXTDYRE',ore:'ore-netherite', price:200000},
 };
 
 // ---------- GEMS DATA ----------
@@ -152,13 +175,99 @@ function showTab(tab, btn){
   });
 }
 
+// ---------- FAQ ----------
+const faqData = [
+  {q:'Apakah pengiriman item benar-benar otomatis?', a:'Sebagian otomatis: begitu kamu klik "Saya Sudah Bayar/Transfer", sistem langsung mengirim notifikasi pesanan (nickname, item, kode unik) ke tim staff. Staff mencocokkan mutasi pembayaran dengan kode unik lalu mengirim item lewat /kit di server. Untuk QRIS/e-wallet manual seperti ini, verifikasi tetap dilakukan manusia — belum ada API bank/e-wallet publik yang bisa dicek otomatis tanpa payment gateway berbayar.'},
+  {q:'Kenapa ada kode unik di belakang nominal?', a:'Kode unik (misalnya Rp50.137) membantu staff mencocokkan transfer kamu dengan pesanan yang benar, apalagi kalau ada banyak pembeli di waktu bersamaan. Selalu transfer PERSIS sejumlah nominal yang tertera, jangan dibulatkan.'},
+  {q:'Bagaimana cara isi nickname Bedrock?', a:'Untuk pemain Bedrock (mobile/console), tambahkan garis bawah ( _ ) di depan nickname, contoh: _bilpayy. Ini standar dari Geyser/Floodgate agar nickname Bedrock tidak bentrok dengan akun Java.'},
+  {q:'Berapa lama proses setelah bayar?', a:'Normalnya 5–15 menit di jam aktif staff. Kalau lebih dari 30 menit belum masuk, hubungi Discord resmi dengan menyertakan ID Pesanan.'},
+];
+
+function renderFaq(){
+  const list = document.getElementById('faqList');
+  if(!list) return;
+  list.innerHTML = faqData.map((f,i)=>`
+    <div class="faq-item" id="faqItem${i}">
+      <div class="faq-q" onclick="toggleFaq(${i})"><span>${f.q}</span><span class="faq-arrow">▾</span></div>
+      <div class="faq-a"><p>${f.a}</p></div>
+    </div>
+  `).join('');
+}
+function toggleFaq(i){
+  const item = document.getElementById('faqItem'+i);
+  const a = item.querySelector('.faq-a');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el=>{
+    el.classList.remove('open');
+    el.querySelector('.faq-a').style.maxHeight = null;
+  });
+  if(!isOpen){
+    item.classList.add('open');
+    a.style.maxHeight = a.scrollHeight + 'px';
+  }
+}
+
+// ---------- DISCORD NOTIFY (semi-otomatis, dengan retry) ----------
+function buildDiscordPayload(order){
+  const methodEmoji = order.method === 'QRIS' ? '🟦' : '📲';
+  return {
+    username: CONFIG.webhookUsername,
+    avatar_url: CONFIG.webhookAvatar,
+    content: '@here Pesanan baru masuk, mohon dicek mutasi & dikirim item-nya 👇',
+    embeds: [{
+      title: methodEmoji + ' Pesanan Baru — ' + order.id,
+      description: 'Klik untuk copy nickname: `' + order.nickname + '`',
+      color: 3092790,
+      fields: [
+        { name: '🎁 Item', value: order.itemName, inline:true },
+        { name: '💳 Metode', value: order.method, inline:true },
+        { name: '🕹️ Platform', value: order.platform === 'bedrock' ? 'Bedrock' : 'Java', inline:true },
+        { name: '👤 Nickname', value: order.nickname, inline:true },
+        { name: '🔢 Kode Unik', value: '+' + order.uniqueCode, inline:true },
+        { name: '💰 Harga Item', value: fmt(order.price), inline:true },
+        { name: '✅ TOTAL WAJIB DICOCOKKAN', value: '**' + fmt(order.totalWithCode) + '**', inline:false },
+      ],
+      footer: { text: 'NextoraSMP Store · Verifikasi manual via kode unik' },
+      timestamp: order.time,
+    }]
+  };
+}
+
+async function notifyDiscord(order, attempt=1){
+  if(!CONFIG.discordWebhookUrl){
+    console.warn('discordWebhookUrl belum diisi di CONFIG — notifikasi dilewati.');
+    return false;
+  }
+  try{
+    const res = await fetch(CONFIG.discordWebhookUrl, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(buildDiscordPayload(order)),
+    });
+    if(!res.ok && res.status !== 204){
+      throw new Error('Webhook responded with status ' + res.status);
+    }
+    return true;
+  }catch(err){
+    console.error('Gagal kirim notifikasi Discord (percobaan ' + attempt + '):', err);
+    if(attempt < 3){
+      await new Promise(r=>setTimeout(r, 1000 * attempt));
+      return notifyDiscord(order, attempt + 1);
+    }
+    return false;
+  }
+}
+
+// ---------- ORDER HISTORY (in-memory, reset saat reload) ----------
+const orderHistory = [];
+
 // ---------- POPOUT MODAL : MULTI-STEP PURCHASE FLOW ----------
 const overlay = document.getElementById('modalOverlay');
 const modalBox = document.getElementById('modalBox');
 
 const paymentCategories = [
   {id:'qris',    label:'QRIS',    icon:'QR', desc:'Scan sekali, berlaku untuk semua bank & e-wallet'},
-  {id:'ewallet', label:'E-Wallet', icon:'EW', desc:'GoPay, OVO, DANA, atau ShopeePay'},
+  {id:'ewallet', label:'E-Wallet', icon:'EW', desc:'Transfer manual ke nomor GoPay/OVO/DANA/ShopeePay'},
 ];
 
 const wallets = [
@@ -168,12 +277,13 @@ const wallets = [
   {id:'shopeepay', label:'ShopeePay',  cls:'pm-shopeepay', tag:'SP'},
 ];
 
-let flow = null; // { order, step, nickname, player, category, wallet }
+let flow = null; // { order, step, platform, nickname, player, category, wallet, uniqueCode }
 let qrTimerId = null;
 let qrSecondsLeft = 600;
 
 function startFlow(order){
-  flow = { order, step:1, nickname:'', player:null, category:null, wallet:null };
+  flow = { order, step:1, platform:'java', nickname:'', player:null, category:null, wallet:null,
+           uniqueCode: 1 + Math.floor(Math.random()*97) };
   openModal();
   renderStep();
 }
@@ -192,6 +302,10 @@ function openGemsModal(){
     ore: 'ore-diamond',
     price: p.price,
   });
+}
+
+function totalWithCode(){
+  return flow.order.price + flow.uniqueCode;
 }
 
 function stepIndicatorHTML(){
@@ -226,25 +340,31 @@ function renderStep(){
   modalBox.classList.add('step-anim');
 }
 
-// ---- STEP 1: NICKNAME ----
+// ---- STEP 1: NICKNAME (Java / Bedrock) ----
 function renderNicknameStep(){
+  const isBedrock = flow.platform === 'bedrock';
   modalBox.innerHTML = `
     <div class="modal-head">
       <div style="flex:1">
         <h3>Masukkan Nickname</h3>
-        <p>Isi username Minecraft (Java) tujuan pengiriman item.</p>
+        <p>Pilih platform lalu isi username tujuan pengiriman item.</p>
       </div>
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
     <div class="modal-body">
       ${stepIndicatorHTML()}
       ${itemRecapHTML()}
-      <div class="field-label">Username ( Bedrock Pake _ )</div>
+      <div class="field-label">Platform Minecraft</div>
+      <div class="platform-toggle">
+        <div class="platform-btn ${!isBedrock?'active':''}" onclick="setPlatform('java')">Java</div>
+        <div class="platform-btn ${isBedrock?'active':''}" onclick="setPlatform('bedrock')">Bedrock (Mobile/Console)</div>
+      </div>
+      <div class="field-label">Username ${isBedrock ? '(wajib diawali garis bawah _)' : '(Java)'}</div>
       <div class="nick-input-row">
-        <input type="text" class="nick-input" id="nickInput" placeholder="cth: _bilpayy" maxlength="16" value="${flow.nickname}">
+        <input type="text" class="nick-input" id="nickInput" placeholder="${isBedrock ? 'cth: _bilpayy' : 'cth: BilPlays'}" maxlength="17" value="${flow.nickname}">
         <button class="nick-check-btn" id="nickCheckBtn" onclick="checkNickname()">Cek Nickname</button>
       </div>
-      <div class="field-hint" id="nickHint">3–16 karakter, huruf/angka/underscore. Wajib dicek dulu sebelum lanjut.</div>
+      <div class="field-hint" id="nickHint">${isBedrock ? 'Ketik gamertag Xbox kamu diawali dengan _ (contoh: _bilpayy). Wajib dicek dulu sebelum lanjut.' : '3–16 karakter, huruf/angka/underscore. Wajib dicek dulu sebelum lanjut.'}</div>
       <div id="playerCardSlot"></div>
       <div class="modal-actions">
         <button class="pixel-btn pixel-border" id="nickNextBtn" onclick="goStep(2)" disabled style="opacity:.5;">Lanjutkan →</button>
@@ -258,6 +378,15 @@ function renderNicknameStep(){
     renderPlayerCard(flow.player);
     setNextEnabled(true);
   }
+}
+
+function setPlatform(p){
+  flow.platform = p;
+  flow.player = null;
+  if(p === 'bedrock' && flow.nickname && !flow.nickname.startsWith('_')){
+    flow.nickname = '_' + flow.nickname;
+  }
+  renderNicknameStep();
 }
 
 function setNextEnabled(on){
@@ -291,6 +420,46 @@ async function checkNickname(){
   document.getElementById('playerCardSlot').innerHTML = '';
   input.classList.remove('error');
 
+  if(flow.platform === 'bedrock'){
+    const validFormat = /^_[A-Za-z0-9_]{2,15}$/.test(name);
+    if(!validFormat){
+      input.classList.add('error');
+      hint.textContent = 'Nickname Bedrock wajib diawali garis bawah ( _ ), contoh: _bilpayy.';
+      hint.classList.add('error');
+      return;
+    }
+    hint.classList.remove('error');
+    hint.textContent = 'Mengecek gamertag Xbox...';
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Cek...';
+    const gamertag = name.slice(1); // strip leading underscore for Xbox lookup
+    try{
+      const res = await fetch('https://api.geysermc.org/v2/xbox/xuid/' + encodeURIComponent(gamertag));
+      if(res.ok){
+        const data = await res.json();
+        if(data && data.xuid){
+          flow.player = { name, uuid: data.xuid, avatar: 'https://mc-heads.net/avatar/Steve/100' };
+          hint.textContent = 'Gamertag Xbox ditemukan dan valid.';
+          renderPlayerCard(flow.player);
+          setNextEnabled(true);
+        } else {
+          throw new Error('not found');
+        }
+      } else {
+        throw new Error('not found');
+      }
+    }catch(err){
+      input.classList.add('error');
+      hint.classList.add('error');
+      hint.innerHTML = 'Gamertag tidak ditemukan. Periksa ejaannya, atau <a href="#" onclick="skipVerify(event)" style="color:var(--blue-deep); text-decoration:underline;">lanjutkan tanpa verifikasi</a>.';
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = 'Cek Nickname';
+    }
+    return;
+  }
+
+  // ---- Java ----
   const validFormat = /^[A-Za-z0-9_]{3,16}$/.test(name);
   if(!validFormat){
     input.classList.add('error');
@@ -328,7 +497,7 @@ async function checkNickname(){
 
 function skipVerify(e){
   e.preventDefault();
-  flow.player = { name: flow.nickname, uuid:null, avatar:'https://mc-heads.net/avatar/' + encodeURIComponent(flow.nickname) + '/100' };
+  flow.player = { name: flow.nickname, uuid:null, avatar:'https://mc-heads.net/avatar/' + encodeURIComponent(flow.nickname.replace(/^_/,'')) + '/100' };
   renderPlayerCard(flow.player);
   setNextEnabled(true);
 }
@@ -339,7 +508,7 @@ function renderCategoryStep(){
     <div class="modal-head">
       <div style="flex:1">
         <h3>Pilih Metode Bayar</h3>
-        <p>Pembayaran instan, dua opsi tersedia.</p>
+        <p>Pembayaran manual, diverifikasi staff via kode unik.</p>
       </div>
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
@@ -374,7 +543,7 @@ function renderCategoryStep(){
   });
 }
 
-// ---- STEP 3: PAYMENT DETAIL (QRIS code / daftar e-wallet) ----
+// ---- STEP 3: PAYMENT DETAIL (QRIS statis / daftar e-wallet) ----
 function renderPaymentDetailStep(){
   if(flow.category === 'qris') renderQrisPayment();
   else renderWalletList();
@@ -383,13 +552,13 @@ function renderPaymentDetailStep(){
 function renderQrisPayment(){
   qrSecondsLeft = 600;
   const orderRef = 'NXR-' + Math.floor(100000 + Math.random()*900000);
-  const qrData = encodeURIComponent(`NEXTORASMP|${orderRef}|${flow.order.price}|${flow.player.name}`);
-  const qrImgUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=0&data=${qrData}`;
+  flow.orderRef = orderRef;
+  const total = totalWithCode();
   modalBox.innerHTML = `
     <div class="modal-head">
       <div style="flex:1">
-        <h3>Scan QRIS</h3>
-        <p>Bayar pakai aplikasi bank atau e-wallet apa pun.</p>
+        <h3>Scan QRIS — ${CONFIG.qrisMerchant}</h3>
+        <p>Scan pakai aplikasi bank atau e-wallet apa pun (QRIS satu untuk semua).</p>
       </div>
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
@@ -397,10 +566,12 @@ function renderQrisPayment(){
       ${stepIndicatorHTML()}
       ${itemRecapHTML()}
       <div class="qr-box">
-        <div class="qr-frame"><img src="${qrImgUrl}" alt="Kode QRIS pembayaran"></div>
-        <div class="qr-amount">${fmt(flow.order.price)}</div>
+        <div class="qr-frame"><img src="${CONFIG.qrisImage}" alt="Kode QRIS ${CONFIG.qrisMerchant}"></div>
+        <div class="qr-amount">${fmt(flow.order.price)} <span class="unique">+ ${flow.uniqueCode}</span></div>
+        <div class="qr-amount-note">Total yang wajib dibayar: <strong style="color:#fff;">${fmt(total)}</strong></div>
         <div class="qr-timer" id="qrTimer">10:00</div>
       </div>
+      <div class="qr-warning">⚠️ QRIS ini statis, jadi nominal <strong>tidak</strong> otomatis terisi. Setelah scan, ketik manual <strong>${fmt(total)}</strong> (persis sampai 3 digit terakhir) di aplikasi pembayaranmu — angka ${flow.uniqueCode} di belakang adalah kode unik agar staff bisa mencocokkan pesananmu.</div>
       <div class="qr-note">Untuk akun <strong>${flow.player.name}</strong> · Ref: ${orderRef}. QR akan kedaluwarsa dalam 10 menit.</div>
       <button class="pixel-btn yellow pixel-border" id="qrPaidBtn" onclick="confirmPayment('QRIS')">Saya Sudah Membayar</button>
       <div class="modal-actions" style="margin-top:10px;">
@@ -449,7 +620,7 @@ function renderWalletList(){
     <div class="modal-head">
       <div style="flex:1">
         <h3>Pilih E-Wallet</h3>
-        <p>Kamu akan diarahkan untuk konfirmasi di aplikasi.</p>
+        <p>Transfer manual ke nomor tujuan, lalu konfirmasi.</p>
       </div>
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
@@ -474,21 +645,50 @@ function renderWalletList(){
   modalBox.querySelectorAll('.wallet-item').forEach(el=>{
     el.onclick = ()=>{
       flow.wallet = el.dataset.id;
-      openWalletProcessing();
+      renderWalletTransfer();
     };
   });
 }
 
-function openWalletProcessing(){
+function renderWalletTransfer(){
   const w = wallets.find(x=>x.id===flow.wallet);
+  const total = totalWithCode();
+  const orderRef = 'NXR-' + Math.floor(100000 + Math.random()*900000);
+  flow.orderRef = orderRef;
   modalBox.innerHTML = `
-    <div class="processing-view">
-      <div class="spinner-lg"></div>
-      <h3>Membuka ${w.label}...</h3>
-      <p>Konfirmasi pembayaran ${fmt(flow.order.price)} di aplikasi ${w.label}.</p>
+    <div class="modal-head">
+      <div class="pm-icon ${w.cls}" style="width:44px;height:44px;font-size:10px;">${w.tag}</div>
+      <div style="flex:1">
+        <h3>Transfer via ${w.label}</h3>
+        <p>Kirim ke nomor di bawah, jumlah harus persis.</p>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      ${stepIndicatorHTML()}
+      ${itemRecapHTML()}
+      <div class="transfer-box">
+        <div class="field-label" style="margin-bottom:2px;">Kirim ke nomor ${w.label}</div>
+        <div class="transfer-number" id="transferNum">${CONFIG.walletNumber}</div>
+        <div class="transfer-owner">a.n. ${CONFIG.walletOwner}</div>
+        <button class="copy-num-btn" onclick="copyWalletNumber()">Copy Nomor</button>
+        <div class="transfer-amount-row">
+          <span>Jumlah:</span>
+          <span class="amt">${fmt(flow.order.price)} <span class="unique">+${flow.uniqueCode}</span></span>
+        </div>
+      </div>
+      <div class="qr-warning">⚠️ Transfer PERSIS <strong>${fmt(total)}</strong> (termasuk ${flow.uniqueCode} rupiah kode unik di belakang) supaya staff bisa mencocokkan otomatis dengan pesanan <strong>${flow.player.name}</strong>. Ref: ${orderRef}.</div>
+      <button class="pixel-btn yellow pixel-border" onclick="confirmPayment('${w.label}')">Saya Sudah Transfer</button>
+      <div class="modal-actions" style="margin-top:10px;">
+        <button class="pixel-btn pixel-border btn-back" onclick="renderWalletList()">← Ganti E-Wallet</button>
+      </div>
     </div>
   `;
-  setTimeout(()=>confirmPayment(w.label), 1700);
+}
+
+function copyWalletNumber(){
+  if(navigator.clipboard){ navigator.clipboard.writeText(CONFIG.walletNumber.replace(/-/g,'')).catch(()=>{}); }
+  showToast('Nomor disalin: ' + CONFIG.walletNumber);
 }
 
 function goStep(n){
@@ -496,22 +696,69 @@ function goStep(n){
   renderStep();
 }
 
-function confirmPayment(methodLabel){
+let confirmInFlight = false;
+
+async function confirmPayment(methodLabel){
+  if(confirmInFlight) return; // cegah klik ganda -> notifikasi dobel
+  confirmInFlight = true;
   clearQrTimer();
-  const orderId = 'NXR-' + Math.floor(100000 + Math.random()*900000);
+  const orderId = flow.orderRef || ('NXR-' + Math.floor(100000 + Math.random()*900000));
+  const total = totalWithCode();
+
+  const order = {
+    id: orderId,
+    itemName: flow.order.title,
+    price: flow.order.price,
+    uniqueCode: flow.uniqueCode,
+    totalWithCode: total,
+    method: methodLabel,
+    platform: flow.platform,
+    nickname: flow.player.name,
+    time: new Date().toISOString(),
+  };
+  orderHistory.push(order);
+  flow.lastOrder = order;
+
+  renderProcessing(order);
+  const sent = await notifyDiscord(order);
+  confirmInFlight = false;
+  renderSuccess(order, methodLabel, total, sent);
+}
+
+function renderProcessing(order){
+  modalBox.innerHTML = `
+    <div class="processing-view">
+      <div class="spinner-lg"></div>
+      <h3>Mengirim notifikasi ke staff...</h3>
+      <p>Menyiapkan pesanan ${order.id}</p>
+    </div>
+  `;
+}
+
+function renderSuccess(order, methodLabel, total, sent){
   modalBox.innerHTML = `
     <div class="modal-success">
-      <div class="success-mark">✓</div>
-      <h3>Pembayaran Dikonfirmasi</h3>
-      <p>${flow.order.title} sebesar ${fmt(flow.order.price)} via ${methodLabel} sedang diproses untuk akun <strong>${flow.player.name}</strong>. Cek /inventory di server setelah pembayaran selesai.</p>
-      <div class="order-id">ID Pesanan: ${orderId}</div>
+      <div class="success-mark">${sent ? '✓' : '⏳'}</div>
+      <h3>Pesanan Diterima</h3>
+      <p>${flow.order.title} sebesar <strong>${fmt(total)}</strong> via ${methodLabel} untuk akun <strong>${flow.player.name}</strong> sudah tercatat. ${sent ? 'Notifikasi otomatis sudah masuk ke Discord staff dan akan diverifikasi lalu dikirim.' : 'Notifikasi otomatis gagal terkirim (koneksi bermasalah) — staff belum tahu pesanan ini. Coba kirim ulang di bawah, atau hubungi Discord resmi dengan ID Pesanan ini.'} Cek /inventory di server setelah item terkirim (biasanya 5–15 menit).</p>
+      <div class="order-id">ID Pesanan: ${order.id}</div>
+      ${!sent ? `<button class="pixel-btn yellow pixel-border" onclick="retryNotify('${order.id}')" style="margin-top:16px;">Kirim Ulang Notifikasi</button>` : ''}
       <br>
-      <button class="pixel-btn pixel-border" onclick="closeModal()" style="margin-top:20px;">Tutup</button>
+      <button class="pixel-btn pixel-border" onclick="closeModal()" style="margin-top:12px;">Tutup</button>
     </div>
   `;
   modalBox.classList.remove('step-anim');
   void modalBox.offsetWidth;
   modalBox.classList.add('step-anim');
+  showToast(sent ? ('Pesanan ' + order.id + ' terkirim ke staff.') : ('Pesanan ' + order.id + ' tercatat, notifikasi belum terkirim.'));
+}
+
+async function retryNotify(orderId){
+  const order = orderHistory.find(o=>o.id===orderId);
+  if(!order) return;
+  renderProcessing(order);
+  const sent = await notifyDiscord(order);
+  renderSuccess(order, order.method, order.totalWithCode, sent);
 }
 
 function openModal(){
@@ -533,6 +780,7 @@ document.addEventListener('keydown', (e)=>{
 
 // ---------- INIT ----------
 showTab('vote', document.querySelector('.tab-btn.active'));
+renderFaq();
 observeReveals();
 fetchServerStatus();
 setInterval(fetchServerStatus, 60000); // refresh tiap 60 detik

@@ -7,18 +7,18 @@ const CONFIG = {
   serverIp: 'play.nextorasmp.my.id',
 
   // Nomor tujuan transfer e-wallet (GoPay/OVO/DANA/ShopeePay) — nomor ASLI kamu.
-  walletNumber: 'GANTI_NOMOR_EWALLET_ANDA',
-  walletOwner: 'GANTI_NAMA_PEMILIK_EWALLET',
+  walletNumber: '0896-4707-6472',
+  walletOwner: 'ARYA DHIMAS DWI PRAYOGO',  // nama pemilik rekening/akun e-wallet
 
   // QRIS statis MILIK KAMU SENDIRI (bukan milik toko/orang lain!).
   // Kalau ini salah, uang pembeli masuk ke rekening orang lain, bukan ke kamu.
-  qrisImage: 'GANTI_URL_GAMBAR_QRIS_MILIK_ANDA',
-  qrisMerchant: 'GANTI_NAMA_MERCHANT_QRIS_ANDA',
+  qrisImage: 'https://www.image2url.com/r2/default/images/1784183198182-4fbb221f-44f7-4d8f-bc4a-a7784b05163d.jpeg',
+  qrisMerchant: 'ARVIE STORE',
 
   // URL backend (lihat folder /worker) yang menyimpan Discord webhook secara
   // AMAN di server, bukan di browser. Isi setelah kamu deploy Worker-nya.
-  orderApiUrl: 'GANTI_https://nextorasmp-api.<subdomainmu>.workers.dev/api/order',
-  leaderboardApiUrl: 'GANTI_https://nextorasmp-api.<subdomainmu>.workers.dev/api/leaderboard',
+ orderApiUrl: 'https://flat-sea-5916nextorasmp-api.melonetsfy-bhyz.workers.dev/api/order',
+ leaderboardApiUrl: 'https://flat-sea-5916nextorasmp-api.melonetsfy-bhyz.workers.dev/api/leaderboard',
 };
 
 // ---------- CEK KONFIGURASI BELUM DIISI (tampilkan peringatan, jangan diam-diam salah) ----------

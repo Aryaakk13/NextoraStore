@@ -1,17 +1,41 @@
-// ---------- CONFIG — EDIT NILAI DI BAWAH INI ----------
+// ============================================================
+// CONFIG — ISI SEMUA NILAI DI BAWAH INI DENGAN DATA ASLI KAMU.
+// Nilai yang masih berawalan "GANTI_" TIDAK BOLEH dibiarkan saat live —
+// situs akan menampilkan peringatan otomatis di layar selama ini.
+// ============================================================
 const CONFIG = {
   serverIp: 'play.nextorasmp.my.id',
-  walletNumber: '0896-4707-6472',   // nomor tujuan GoPay/OVO/DANA/ShopeePay
-  walletOwner: 'NextoraSMP Store',
-  qrisImage: 'https://www.image2url.com/r2/default/images/1784095539988-dad196d6-67d8-4152-926d-2820744a0361.jpeg', // QRIS statis milikmu (dari ARVIE STORE)
-  qrisMerchant: 'ARVIE STORE',
-  // Isi dengan Discord Webhook URL channel admin/staff kamu supaya setiap
-  // pesanan langsung masuk notifikasi Discord (Server Settings > Integrations > Webhooks).
-  // Selama masih kosong, notifikasi otomatis ini dilewati (tidak error, cuma tidak terkirim).
-  discordWebhookUrl: 'https://discord.com/api/webhooks/1526834820724953160/A-GFlBYQEYlWeaay--Qwsbcl3-8dtMR3Bxgi_p_VY4JPz5UAonVV3PAiUgHGMCBPuTkn',
-  webhookUsername: 'NextoraSMP — Order Bot',
-  webhookAvatar: 'https://mc-heads.net/avatar/Steve/100',
+
+  // Nomor tujuan transfer e-wallet (GoPay/OVO/DANA/ShopeePay) — nomor ASLI kamu.
+  walletNumber: 'GANTI_NOMOR_EWALLET_ANDA',
+  walletOwner: 'GANTI_NAMA_PEMILIK_EWALLET',
+
+  // QRIS statis MILIK KAMU SENDIRI (bukan milik toko/orang lain!).
+  // Kalau ini salah, uang pembeli masuk ke rekening orang lain, bukan ke kamu.
+  qrisImage: 'GANTI_URL_GAMBAR_QRIS_MILIK_ANDA',
+  qrisMerchant: 'GANTI_NAMA_MERCHANT_QRIS_ANDA',
+
+  // URL backend (lihat folder /worker) yang menyimpan Discord webhook secara
+  // AMAN di server, bukan di browser. Isi setelah kamu deploy Worker-nya.
+  orderApiUrl: 'GANTI_https://nextorasmp-api.<subdomainmu>.workers.dev/api/order',
+  leaderboardApiUrl: 'GANTI_https://nextorasmp-api.<subdomainmu>.workers.dev/api/leaderboard',
 };
+
+// ---------- CEK KONFIGURASI BELUM DIISI (tampilkan peringatan, jangan diam-diam salah) ----------
+function findUnfilledConfig(){
+  return Object.entries(CONFIG).filter(([, v]) => typeof v === 'string' && v.startsWith('GANTI_'));
+}
+function renderConfigWarning(){
+  const missing = findUnfilledConfig();
+  if(missing.length === 0) return;
+  const bar = document.createElement('div');
+  bar.style.cssText = 'position:sticky;top:0;z-index:2000;background:#E5484D;color:#fff;font:600 13px/1.5 Inter,sans-serif;padding:10px 16px;text-align:center;';
+  bar.innerHTML = '⚠️ Situs belum siap launching — konfigurasi berikut masih placeholder: '
+    + missing.map(([k]) => `<code style="background:rgba(255,255,255,.2);padding:1px 5px;border-radius:4px;">${k}</code>`).join(', ')
+    + '. Isi di script.js (CONFIG) sebelum menerima pembayaran sungguhan.';
+  document.body.prepend(bar);
+  console.warn('[NextoraSMP] Konfigurasi belum lengkap:', missing.map(([k]) => k));
+}
 
 // ---------- SCROLL EFFECTS (navbar shadow + reveal on scroll) ----------
 const siteHeader = document.getElementById('siteHeader');
@@ -87,6 +111,7 @@ function toggleMenu(){
 const fmt = n => "Rp" + n.toLocaleString('id-ID');
 
 // ---------- RANK DATA ----------
+// Ini bukan "dummy" — ini katalog produkmu. Tetap edit harga/nama sesuai server kamu.
 const rankData = {
   vip:     {name:'IRON — NEXTRA',      ore:'ore-iron',      price:25000},
   mvp:     {name:'GOLD — NEXOR',       ore:'ore-gold',      price:50000},
@@ -95,6 +120,7 @@ const rankData = {
 };
 
 // ---------- GEMS DATA ----------
+// Sama seperti rank: ini daftar harga produkmu, bukan dummy — sesuaikan nominal & harga.
 const gemPackages = [
   {amt:1000,  price:15000,  bonus:0},
   {amt:2500,  price:35000,  bonus:100},
@@ -132,52 +158,76 @@ function selectPackage(i){
 }
 selectPackage(4);
 
-// ---------- LEADERBOARD DATA ----------
-const leaderboards = {
-  vote: {unit:'votes', data:[
-    {n:'ZephyrDrake', v:342},{n:'MikaBlaze', v:301},{n:'RyuuNova', v:287},
-    {n:'AstraHex', v:255},{n:'KaelWynter', v:238},{n:'LunarSaphire', v:214},
-    {n:'ObsidianFox', v:198},{n:'TidalRex', v:176},
-  ]},
-  donate: {unit:'Rp', data:[
-    {n:'GoldenHarrow', v:1250000},{n:'VelvetStorm', v:980000},{n:'NoctisKage', v:875000},
-    {n:'EmberQuinn', v:640000},{n:'SableWraith', v:520000},{n:'FrostByte_ID', v:410000},
-    {n:'CrimsonYuki', v:365000},{n:'ArcaneVexen', v:290000},
-  ]},
-  balance: {unit:'gems', data:[
-    {n:'IronCladBoy', v:48200},{n:'PixelMerchant', v:41750},{n:'ShardHunter', v:38900},
-    {n:'GleamRunner', v:33400},{n:'DustyForge', v:29850},{n:'CopperVein', v:26100},
-    {n:'MossyOak_ID', v:21700},{n:'QuartzKid', v:18450},
-  ]},
-  playtime: {unit:'jam', data:[
-    {n:'MarrowKnight', v:612},{n:'WillowStrider', v:548},{n:'HexBastion', v:501},
-    {n:'ThornVale', v:467},{n:'GraniteSoul', v:433},{n:'EchoRavine', v:398},
-    {n:'BrackenFall', v:355},{n:'SolsticeMoor', v:312},
-  ]},
-};
+// ---------- LEADERBOARD (data ASLI, diambil dari backend) ----------
+// Tidak ada lagi nama pemain fiktif di sini. Data didapat dari CONFIG.leaderboardApiUrl,
+// yang kamu isi lewat plugin server / cron job kamu sendiri (lihat worker/README).
+const LB_UNITS = { vote:'votes', donate:'Rp', balance:'gems', playtime:'jam' };
+let leaderboardData = null;   // null = belum dimuat
+let leaderboardError = false;
+let activeLbTab = 'vote';
+
+async function loadLeaderboard(){
+  try{
+    const res = await fetch(CONFIG.leaderboardApiUrl);
+    if(!res.ok) throw new Error('status ' + res.status);
+    leaderboardData = await res.json();
+    leaderboardError = false;
+  }catch(err){
+    console.error('Gagal memuat leaderboard:', err);
+    leaderboardData = null;
+    leaderboardError = true;
+  }
+  renderLbBody();
+}
 
 function showTab(tab, btn){
+  activeLbTab = tab;
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
+  if(btn) btn.classList.add('active');
+  else {
+    const match = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
+    if(match) match.classList.add('active');
+  }
+  renderLbBody();
+}
+
+function renderLbBody(){
   const body = document.getElementById('lbBody');
-  body.innerHTML = '';
-  const { unit, data } = leaderboards[tab];
-  data.forEach((row, i)=>{
-    const el = document.createElement('div');
-    el.className = 'lb-row';
+  if(!body) return;
+
+  if(leaderboardData === null){
+    body.innerHTML = `<div class="lb-row"><span></span><span style="color:var(--text-mute)">${leaderboardError ? 'Gagal memuat data leaderboard. Coba refresh halaman.' : 'Memuat data...'}</span><span></span></div>`;
+    return;
+  }
+
+  const rows = leaderboardData[activeLbTab] || [];
+  if(rows.length === 0){
+    body.innerHTML = `<div class="lb-row"><span></span><span style="color:var(--text-mute)">Belum ada data untuk kategori ini.</span><span></span></div>`;
+    return;
+  }
+
+  const unit = LB_UNITS[activeLbTab];
+  body.innerHTML = rows.map((row, i)=>{
     const val = unit==='Rp' ? fmt(row.v) : row.v.toLocaleString('id-ID') + ' ' + unit;
-    el.innerHTML = `
-      <span class="lb-rank">#${i+1}</span>
-      <span class="lb-player"><span class="lb-avatar"></span>${row.n}</span>
-      <span class="lb-value">${val}</span>
+    return `
+      <div class="lb-row">
+        <span class="lb-rank">#${i+1}</span>
+        <span class="lb-player"><span class="lb-avatar"></span>${escapeHtml(row.n)}</span>
+        <span class="lb-value">${val}</span>
+      </div>
     `;
-    body.appendChild(el);
-  });
+  }).join('');
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = String(str);
+  return d.innerHTML;
 }
 
 // ---------- FAQ ----------
 const faqData = [
-  {q:'Apakah pengiriman item benar-benar otomatis?', a:'Sebagian otomatis: begitu kamu klik "Saya Sudah Bayar/Transfer", sistem langsung mengirim notifikasi pesanan (nickname, item, kode unik) ke tim staff. Staff mencocokkan mutasi pembayaran dengan kode unik lalu mengirim item lewat /kit di server. Untuk QRIS/e-wallet manual seperti ini, verifikasi tetap dilakukan manusia — belum ada API bank/e-wallet publik yang bisa dicek otomatis tanpa payment gateway berbayar.'},
+  {q:'Apakah pengiriman item benar-benar otomatis?', a:'Sebagian otomatis: begitu kamu klik "Saya Sudah Bayar/Transfer", sistem langsung mengirim notifikasi pesanan (nickname, item, kode unik) ke tim staff lewat backend kami. Staff mencocokkan mutasi pembayaran dengan kode unik lalu mengirim item lewat /kit di server. Verifikasi tetap dilakukan manusia — kalau kamu ingin verifikasi otomatis penuh, pertimbangkan payment gateway seperti Tripay/Midtrans/Duitku.'},
   {q:'Kenapa ada kode unik di belakang nominal?', a:'Kode unik (misalnya Rp50.137) membantu staff mencocokkan transfer kamu dengan pesanan yang benar, apalagi kalau ada banyak pembeli di waktu bersamaan. Selalu transfer PERSIS sejumlah nominal yang tertera, jangan dibulatkan.'},
   {q:'Bagaimana cara isi nickname Bedrock?', a:'Untuk pemain Bedrock (mobile/console), tambahkan garis bawah ( _ ) di depan nickname, contoh: _bilpayy. Ini standar dari Geyser/Floodgate agar nickname Bedrock tidak bentrok dengan akun Java.'},
   {q:'Berapa lama proses setelah bayar?', a:'Normalnya 5–15 menit di jam aktif staff. Kalau lebih dari 30 menit belum masuk, hubungi Discord resmi dengan menyertakan ID Pesanan.'},
@@ -207,58 +257,28 @@ function toggleFaq(i){
   }
 }
 
-// ---------- DISCORD NOTIFY (semi-otomatis, dengan retry) ----------
-function buildDiscordPayload(order){
-  const methodEmoji = order.method === 'QRIS' ? '🟦' : '📲';
-  return {
-    username: CONFIG.webhookUsername,
-    avatar_url: CONFIG.webhookAvatar,
-    content: '@here Pesanan baru masuk, mohon dicek mutasi & dikirim item-nya 👇',
-    embeds: [{
-      title: methodEmoji + ' Pesanan Baru — ' + order.id,
-      description: 'Klik untuk copy nickname: `' + order.nickname + '`',
-      color: 3092790,
-      fields: [
-        { name: '🎁 Item', value: order.itemName, inline:true },
-        { name: '💳 Metode', value: order.method, inline:true },
-        { name: '🕹️ Platform', value: order.platform === 'bedrock' ? 'Bedrock' : 'Java', inline:true },
-        { name: '👤 Nickname', value: order.nickname, inline:true },
-        { name: '🔢 Kode Unik', value: '+' + order.uniqueCode, inline:true },
-        { name: '💰 Harga Item', value: fmt(order.price), inline:true },
-        { name: '✅ TOTAL WAJIB DICOCOKKAN', value: '**' + fmt(order.totalWithCode) + '**', inline:false },
-      ],
-      footer: { text: 'NextoraSMP Store · Verifikasi manual via kode unik' },
-      timestamp: order.time,
-    }]
-  };
-}
-
-async function notifyDiscord(order, attempt=1){
-  if(!CONFIG.discordWebhookUrl){
-    console.warn('discordWebhookUrl belum diisi di CONFIG — notifikasi dilewati.');
-    return false;
-  }
+// ---------- KIRIM ORDER KE BACKEND (bukan langsung ke Discord dari browser) ----------
+async function submitOrder(order, attempt=1){
   try{
-    const res = await fetch(CONFIG.discordWebhookUrl, {
+    const res = await fetch(CONFIG.orderApiUrl, {
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify(buildDiscordPayload(order)),
+      body: JSON.stringify(order),
     });
-    if(!res.ok && res.status !== 204){
-      throw new Error('Webhook responded with status ' + res.status);
-    }
-    return true;
+    if(!res.ok) throw new Error('status ' + res.status);
+    const data = await res.json();
+    return !!data.success;
   }catch(err){
-    console.error('Gagal kirim notifikasi Discord (percobaan ' + attempt + '):', err);
+    console.error('Gagal kirim order ke backend (percobaan ' + attempt + '):', err);
     if(attempt < 3){
       await new Promise(r=>setTimeout(r, 1000 * attempt));
-      return notifyDiscord(order, attempt + 1);
+      return submitOrder(order, attempt + 1);
     }
     return false;
   }
 }
 
-// ---------- ORDER HISTORY (in-memory, reset saat reload) ----------
+// ---------- ORDER HISTORY (in-memory, reset saat reload — catatan permanen ada di backend/Discord) ----------
 const orderHistory = [];
 
 // ---------- POPOUT MODAL : MULTI-STEP PURCHASE FLOW ----------
@@ -720,7 +740,7 @@ async function confirmPayment(methodLabel){
   flow.lastOrder = order;
 
   renderProcessing(order);
-  const sent = await notifyDiscord(order);
+  const sent = await submitOrder(order);
   confirmInFlight = false;
   renderSuccess(order, methodLabel, total, sent);
 }
@@ -757,7 +777,7 @@ async function retryNotify(orderId){
   const order = orderHistory.find(o=>o.id===orderId);
   if(!order) return;
   renderProcessing(order);
-  const sent = await notifyDiscord(order);
+  const sent = await submitOrder(order);
   renderSuccess(order, order.method, order.totalWithCode, sent);
 }
 
@@ -779,8 +799,11 @@ document.addEventListener('keydown', (e)=>{
 });
 
 // ---------- INIT ----------
+renderConfigWarning();
 showTab('vote', document.querySelector('.tab-btn.active'));
+loadLeaderboard();
 renderFaq();
 observeReveals();
 fetchServerStatus();
-setInterval(fetchServerStatus, 60000); // refresh tiap 60 detik
+setInterval(fetchServerStatus, 60000);   // refresh status server tiap 60 detik
+setInterval(loadLeaderboard, 5 * 60000); // refresh leaderboard tiap 5 menit

@@ -1,0 +1,16 @@
+name = "flat-sea-5916nextorasmp-api"
+main = "worker.js"
+compatibility_date = "2026-07-01"
+
+[[kv_namespaces]]
+binding = "ORDERS"
+id = "f9e2cacdadb3484a8ce7c5052ade5ff9"
+
+[[kv_namespaces]]
+binding = "LEADERBOARD"
+id = "3cb201dfb24b4c9fbe7d2f809b69b198"
+
+[vars]
+WEBHOOK_USERNAME = "NextoraSMP — Order Bot"
+WEBHOOK_AVATAR = "https://mc-heads.net/avatar/Steve/100"
+ALLOWED_ORIGIN = "*"

@@ -122,9 +122,24 @@ function copyIP(){
   setTimeout(()=>btn.textContent = old, 1500);
 }
 
-function toggleMenu(){
-  document.querySelector('.nav-links').classList.toggle('open');
+function toggleMenu(forceClose){
+  const nav = document.querySelector('.nav-links');
+  const burger = document.querySelector('.burger');
+  const scrim = document.getElementById('navScrim');
+  const shouldOpen = forceClose === true ? false : !nav.classList.contains('open');
+
+  nav.classList.toggle('open', shouldOpen);
+  burger.classList.toggle('open', shouldOpen);
+  scrim.classList.toggle('open', shouldOpen);
+  document.body.classList.toggle('menu-open', shouldOpen);
+  burger.setAttribute('aria-expanded', String(shouldOpen));
 }
+
+// Close the mobile menu automatically once a nav link is tapped,
+// so the buyer lands straight on the section instead of a still-open panel.
+document.querySelectorAll('#navLinks a').forEach(a=>{
+  a.addEventListener('click', ()=>toggleMenu(true));
+});
 
 const fmt = n => "Rp" + n.toLocaleString('id-ID');
 
@@ -230,7 +245,7 @@ function renderLbBody(){
     return `
       <div class="lb-row">
         <span class="lb-rank">#${i+1}</span>
-        <span class="lb-player"><span class="lb-avatar"></span>${escapeHtml(row.n)}</span>
+        <span class="lb-player"><span class="lb-avatar"></span><span class="lb-name">${escapeHtml(row.n)}</span></span>
         <span class="lb-value">${val}</span>
       </div>
     `;

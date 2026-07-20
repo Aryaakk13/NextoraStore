@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>NextoraSMP — Store</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Sora:wght@400;500;600;700;800&family=VT323&display=swap" rel="stylesheet">
@@ -26,10 +26,13 @@
     </ul>
     <div class="nav-cta">
       <button class="pixel-btn yellow pixel-border" id="ip-btn" onclick="copyIP()">play.nextorasmp.my.id</button>
-      <button class="burger" onclick="toggleMenu()" aria-label="Buka menu"><span></span><span></span><span></span></button>
+      <button class="burger" onclick="toggleMenu()" aria-label="Buka menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
 </header>
+<div class="nav-scrim" id="navScrim" onclick="toggleMenu()"></div>
 
 <section class="hero" id="home">
   <div class="hero-grid-bg"></div>
@@ -69,7 +72,8 @@
       <h2>Tingkatkan Pengalaman Bermainmu</h2>
       <p>Setiap rank memberi akses fitur eksklusif, dari kit harian sampai perk kreatif. Semua pembelian bersifat permanen.</p>
     </div>
-    <div class="rank-grid">
+    <div class="rank-scroll-hint" id="rankScrollHint">Geser untuk lihat semua rank →</div>
+    <div class="rank-grid" id="rankGrid">
 
       <div class="rank-card reveal">
         <div class="ore-swatch ore-iron"></div>
@@ -190,7 +194,7 @@
       <h2>Leaderboard NextoraSMP</h2>
       <p>Update otomatis setiap jam. Kejar posisi puncak dan dapatkan reward eksklusif tiap akhir musim.</p>
     </div>
-    <div class="tabs">
+    <div class="tabs" id="tabsScroll">
       <button class="tab-btn active" data-tab="vote" onclick="showTab('vote',this)">Top Vote</button>
       <button class="tab-btn" data-tab="donate" onclick="showTab('donate',this)">Top Donate</button>
       <button class="tab-btn" data-tab="balance" onclick="showTab('balance',this)">Top Balance</button>
@@ -239,6 +243,12 @@
   </div>
   <div class="foot-bottom">© 2026 NextoraSMP. Tidak berafiliasi dengan Mojang atau Microsoft.</div>
 </footer>
+
+<!-- ---------- MOBILE STICKY CTA ---------- -->
+<div class="mobile-sticky-cta" id="mobileStickyCta">
+  <a href="#ranks" class="pixel-btn yellow pixel-border">Lihat Rank</a>
+  <button class="pixel-btn pixel-border" onclick="copyIP()">Copy IP</button>
+</div>
 
 <!-- ---------- POPOUT MODAL ---------- -->
 <div class="modal-overlay" id="modalOverlay">

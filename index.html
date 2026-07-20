@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NextoraSMP — Store</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700;800&family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Sora:wght@400;500;600;700;800&family=VT323&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,8 +16,8 @@
       <div class="logo-block"></div>
       <span>NEXTORA<em>SMP</em></span>
     </div>
-    <ul class="nav-links">
-      <li><a href="#home">Home</a></li>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" class="active">Home</a></li>
       <li><a href="#ranks">Rank</a></li>
       <li><a href="#gems">Gems</a></li>
       <li><a href="#vote">Vote</a></li>
@@ -26,17 +26,19 @@
     </ul>
     <div class="nav-cta">
       <button class="pixel-btn yellow pixel-border" id="ip-btn" onclick="copyIP()">play.nextorasmp.my.id</button>
-      <button class="burger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+      <button class="burger" onclick="toggleMenu()" aria-label="Buka menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
 </header>
 
 <section class="hero" id="home">
+  <div class="hero-grid-bg"></div>
   <div class="cloud-strip"></div>
   <div class="floating-block fb1"></div>
   <div class="floating-block fb2"></div>
   <div class="floating-block fb3"></div>
   <div class="floating-block fb4"></div>
+  <div class="hero-glow"></div>
   <div class="container">
     <span class="badge" id="statusBadge"><span class="badge-dot" id="statusDot"></span> <span id="statusText">Mengecek status server...</span></span>
     <h1>Bangun Duniamu di <em>NextoraSMP</em></h1>
@@ -46,6 +48,7 @@
       <a href="#vote" class="pixel-btn outline pixel-border">Vote Server</a>
     </div>
     <div class="ip-card">
+      <span class="ip-label">SERVER IP</span>
       <span class="mono">play.nextorasmp.my.id</span>
       <button onclick="copyIP()">Copy IP</button>
     </div>
@@ -56,6 +59,7 @@
       <div><div class="num">24/7</div><div class="lbl">Server Uptime</div></div>
     </div>
   </div>
+  <div class="hero-divider"></div>
 </section>
 
 <section class="section" id="ranks">

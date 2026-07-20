@@ -13,4 +13,4 @@ id = "3cb201dfb24b4c9fbe7d2f809b69b198"
 [vars]
 WEBHOOK_USERNAME = "NextoraSMP — Order Bot"
 WEBHOOK_AVATAR = "https://mc-heads.net/avatar/Steve/100"
-ALLOWED_ORIGIN = "*"
+ALLOWED_ORIGIN = "https://store.nextorasmp.my.id"

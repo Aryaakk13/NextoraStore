@@ -56,6 +56,24 @@ function observeReveals(root=document){
   root.querySelectorAll('.reveal:not(.in-view)').forEach(el=>revealObserver.observe(el));
 }
 
+// ---------- NAV SCROLLSPY (highlight menu sesuai section aktif) ----------
+function initScrollspy(){
+  const navLinks = document.querySelectorAll('#navLinks a[href^="#"]');
+  const sections = [...navLinks].map(a => document.getElementById(a.getAttribute('href').slice(1))).filter(Boolean);
+  if(!sections.length) return;
+
+  const spy = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const id = entry.target.id;
+        navLinks.forEach(a=>a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+      }
+    });
+  }, { rootMargin:'-45% 0px -50% 0px', threshold:0 });
+
+  sections.forEach(sec=>spy.observe(sec));
+}
+
 // ---------- TOASTS ----------
 function showToast(msg, ms=3500){
   const stack = document.getElementById('toastStack');
@@ -804,6 +822,7 @@ showTab('vote', document.querySelector('.tab-btn.active'));
 loadLeaderboard();
 renderFaq();
 observeReveals();
+initScrollspy();
 fetchServerStatus();
 setInterval(fetchServerStatus, 60000);   // refresh status server tiap 60 detik
 setInterval(loadLeaderboard, 5 * 60000); // refresh leaderboard tiap 5 menit

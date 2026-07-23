@@ -6,14 +6,35 @@
 <title>Topup & Rank — Nextora</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=45">
+<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.25/dist/lenis.css">
+<link rel="stylesheet" href="style.css?v=60">
 <style>
-.gems-icon { width: 48px; height: 48px; background: linear-gradient(135deg, #67e8f9, #06b6d4); border-radius: 14px; margin: 0 auto 12px; }
-.gems-icon svg { width: 24px; height: 24px; color: white; }
-.social-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: white; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 13px; font-weight: 600; color: #0f172a; transition: all 0.2s; }
-.social-btn:hover { border-color: #3b82f6; color: #3b82f6; }
-.discord-btn { background: #5865F2; color: white; border-color: #5865F2; }
-.discord-btn:hover { background: #4752c4; border-color: #4752c4; }
+/* Smooth Cursor */
+.smooth-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  opacity: 0;
+}
+
+.smooth-cursor.active {
+  opacity: 1;
+}
+
+body:has(.smooth-cursor) {
+  cursor: none;
+}
+
+body:has(.smooth-cursor) a,
+body:has(.smooth-cursor) button,
+body:has(.smooth-cursor) [onclick] {
+  cursor: none;
+}
 
 /* Rank Grid */
 .rank-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
@@ -209,6 +230,7 @@
 </style>
 </head>
 <body>
+<div class="smooth-cursor" id="cursor"></div>
 
 <!-- TOAST -->
 <div class="toast-stack" id="toastStack"></div>
@@ -232,7 +254,7 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero" style="min-height: auto; padding: 100px 0 60px;">
+<section class="hero scroll-reveal" style="min-height: auto; padding: 100px 0 60px;">
   <div class="hero-bg"></div>
   <div class="container">
     <div class="hero-content" style="text-align: center; max-width: 100%;">
@@ -246,7 +268,7 @@
 </section>
 
 <!-- RANK CARDS -->
-<section class="section about">
+<section class="section about scroll-reveal">
   <div class="container">
     <div class="section-header">
       <div class="section-label">Server Rank</div>
@@ -319,27 +341,21 @@
     </div>
     <div class="gems-grid">
       <div class="gems-card">
-        <div class="gems-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 9l10 7 10-7-10-7zM2 15l10 7 10-7 10-7z"></path></svg>
-        </div>
+        <div class="gems-icon"></div>
         <div class="gems-label">Basic</div>
         <div class="gems-amount">1.000</div>
         <div class="gems-price">Rp15.000</div>
         <button class="gems-btn">Beli</button>
       </div>
       <div class="gems-card">
-        <div class="gems-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 9l10 7 10-7-10-7zM2 15l10 7 10-7 10-7z"></path></svg>
-        </div>
+        <div class="gems-icon"></div>
         <div class="gems-label">Popular</div>
         <div class="gems-amount">2.500</div>
         <div class="gems-price">Rp35.000</div>
         <button class="gems-btn">Beli</button>
       </div>
       <div class="gems-card">
-        <div class="gems-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 9l10 7 10-7-10-7zM2 15l10 7 10-7 10-7z"></path></svg>
-        </div>
+        <div class="gems-icon"></div>
         <div class="gems-label">Popular</div>
         <div class="gems-amount">5.000</div>
         <div class="gems-price">Rp65.000</div>
@@ -347,18 +363,14 @@
       </div>
       <div class="gems-card gems-card-best">
         <div class="gems-best-badge">Best</div>
-        <div class="gems-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 9l10 7 10-7-10-7zM2 15l10 7 10-7 10-7z"></path></svg>
-        </div>
+        <div class="gems-icon"></div>
         <div class="gems-label">Premium</div>
         <div class="gems-amount">10.000</div>
         <div class="gems-price">Rp115.000</div>
         <button class="gems-btn">Beli</button>
       </div>
       <div class="gems-card">
-        <div class="gems-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 9l10 7 10-7-10-7zM2 15l10 7 10-7 10-7z"></path></svg>
-        </div>
+        <div class="gems-icon"></div>
         <div class="gems-label">Premium</div>
         <div class="gems-amount">15.000</div>
         <div class="gems-price">Rp160.000</div>
@@ -397,6 +409,57 @@
   </div>
 </footer>
 
-<script src="script.js?v=41"></script>
+<script src="https://unpkg.com/lenis@1.3.25/dist/lenis.min.js"></script>
+<script src="script.js?v=60"></script>
+<script>
+// Initialize Lenis Smooth Scroll
+const lenis = new Lenis({
+  duration: 1.2,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  orientation: 'vertical',
+  gestureOrientation: 'vertical',
+  smoothWheel: true,
+  wheelMultiplier: 1,
+  touchMultiplier: 2,
+  infinite: false,
+});
+
+function raf(time) {
+  lenis.raf(time);
+  requestAnimationFrame(raf);
+}
+
+requestAnimationFrame(raf);
+
+// Smooth Cursor
+(function() {
+  const cursor = document.getElementById('cursor');
+  let mouseX = 0, mouseY = 0;
+  let cursorX = 0, cursorY = 0;
+  const speed = 0.15;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursor.classList.add('active');
+  });
+
+  document.addEventListener('mouseleave', () => {
+    cursor.classList.remove('active');
+  });
+
+  function animateCursor() {
+    cursorX += (mouseX - cursorX) * speed;
+    cursorY += (mouseY - cursorY) * speed;
+
+    cursor.style.left = cursorX + 'px';
+    cursor.style.top = cursorY + 'px';
+
+    requestAnimationFrame(animateCursor);
+  }
+
+  animateCursor();
+})();
+</script>
 </body>
 </html>

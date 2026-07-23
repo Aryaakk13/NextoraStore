@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peringkat — Nextora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=45">
+<style>
+.lb-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.lb-tab {
+  padding: 12px 24px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.lb-tab::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--primary);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.lb-tab:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.lb-tab:hover::before {
+  opacity: 1;
+}
+
+.lb-tab.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+}
+
+.lb-tab.active::before {
+  background: white;
+  opacity: 0.3;
+}
+
+.lb-table {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.lb-row-header {
+  display: grid;
+  grid-template-columns: 60px 1fr 120px;
+  padding: 16px 20px;
+  align-items: center;
+  background: var(--light);
+  font-weight: 700;
+  font-size: 12px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.lb-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 120px;
+  padding: 16px 20px;
+  align-items: center;
+  border-bottom: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.lb-row:last-child { border-bottom: none; }
+.lb-row:hover { background: var(--light); transform: translateX(4px); }
+
+.lb-row.top1 { background: rgba(251, 191, 36, 0.08); }
+.lb-row.top2 { background: rgba(203, 213, 225, 0.08); }
+.lb-row.top3 { background: rgba(217, 119, 6, 0.08); }
+
+.rank-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 14px;
+  background: var(--light);
+  color: #64748b;
+  transition: all 0.3s ease;
+}
+
+.rank-badge.gold {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: black;
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+}
+
+.rank-badge.silver {
+  background: linear-gradient(135deg, #cbd5e1, #94a3b8);
+  color: white;
+  box-shadow: 0 4px 12px rgba(148, 163, 184, 0.3);
+}
+
+.rank-badge.bronze {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  color: white;
+  box-shadow: 0 4px 12px rgba(180, 83, 9, 0.3);
+}
+
+.player-info { display: flex; align-items: center; gap: 14px; }
+
+.player-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.lb-row:hover .player-avatar {
+  transform: scale(1.1);
+}
+
+.player-name { font-weight: 600; color: var(--dark); font-size: 15px; }
+.player-tag { font-size: 12px; color: #94a3b8; }
+
+.value-wrap { text-align: right; }
+.value-num { font-size: 16px; font-weight: 700; color: var(--dark); }
+.value-label { font-size: 11px; color: #94a3b8; text-transform: uppercase; margin-top: 2px; }
+
+.refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.refresh-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+}
+
+.loading-state {
+  padding: 60px 40px;
+  text-align: center;
+}
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text { color: #94a3b8; font-size: 14px; }
+
+.empty-state {
+  padding: 60px 40px;
+  text-align: center;
+}
+.empty-icon { font-size: 48px; margin-bottom: 12px; }
+.empty-text { color: #94a3b8; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast-stack" id="toastStack"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">
+        <img src="assets/icon.png" alt="Nextora" class="logo-icon-img">
+        <span>Nextora</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="rank.html">Topup</a></li>
+        <li><a href="leaderboard.html" class="active">Peringkat</a></li>
+      </ul>
+      <div class="nav-right"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="min-height: auto; padding: 100px 0 60px;">
+  <div class="hero-bg"></div>
+  <div class="container">
+    <div class="hero-content" style="text-align: center; max-width: 100%;">
+      <h1 class="hero-title">
+        <span class="title-line">Peringkat</span>
+        <span class="title-line accent">Players</span>
+      </h1>
+      <p class="hero-desc" style="margin: 0 auto 32px;">Papan peringkat pemain terbaik server</p>
+    </div>
+  </div>
+</section>
+
+<!-- LEADERBOARD -->
+<section class="section about">
+  <div class="container">
+    <!-- Tabs -->
+    <div class="lb-tabs">
+      <button class="lb-tab active" data-tab="vote">Top Vote</button>
+      <button class="lb-tab" data-tab="donate">Top Donate</button>
+      <button class="lb-tab" data-tab="balance">Top Balance</button>
+      <button class="lb-tab" data-tab="playtime">Top Playtime</button>
+    </div>
+
+    <!-- Table -->
+    <div class="lb-table" id="lbTable">
+      <div class="lb-row-header" id="lbHeader">
+        <span style="text-align: center;">#</span>
+        <span>Player</span>
+        <span style="text-align: right;" id="lbValueLabel">Votes</span>
+      </div>
+      <div id="lbBody"></div>
+    </div>
+
+    <div style="text-align: center;">
+      <button class="refresh-btn" id="refreshBtn">
+        Refresh
+      </button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><img src="assets/icon.png" alt="Nextora" class="logo-icon-img"><span>Nextora</span></a>
+        <p>Server Minecraft Survival Indonesia</p>
+      </div>
+      <div class="footer-links">
+        <h5>Menu</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="rank.html">Topup</a></li>
+          <li><a href="leaderboard.html">Peringkat</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h5>Komunitas</h5>
+        <ul>
+          <li><a href="https://dsc.gg/nextorasmp" target="_blank">Discord</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">2026 Nextora. Tidak berafiliasi dengan Mojang atau Microsoft.</div>
+  </div>
+</footer>
+
+<script src="script.js?v=41"></script>
+<script>
+(function() {
+  const SERVER_IP = 'play.nextorasmp.my.id';
+  const API = 'https://flat-sea-5916nextorasmp-api.melonetsfy-bhyz.workers.dev/api/leaderboard';
+  let currentTab = 'vote';
+
+  const DEMO = {
+    vote: [
+      {n:'RizkyBuilds', v:287}, {n:'CraftMaster99', v:245}, {n:'BlockNinja', v:198},
+      {n:'MineKing_ID', v:176}, {n:'RedstoneWiz', v:154}, {n:'SurvivalPro', v:132},
+      {n:'BaseBuilder', v:118}, {n:'DiamondHunter', v:95}, {n:'PvPLegend', v:87},
+      {n:'FarmExpert', v:76}
+    ],
+    donate: [
+      {n:'GenerousPlayer', v:1500000}, {n:'VIPSupporter', v:750000}, {n:'DonatorBest', v:500000},
+      {n:'TopDonor', v:350000}, {n:'SilverDonor', v:200000}, {n:'BronzeDonor', v:100000},
+      {n:'NewDonor', v:50000}, {n:'FirstDonor', v:25000}, {n:'HelperDonor', v:15000},
+      {n:'StarterDonor', v:10000}
+    ],
+    balance: [
+      {n:'RichBuilder', v:5000000}, {n:'TradeKing', v:3500000}, {n:'ShopOwner', v:2500000},
+      {n:'MerchantPro', v:1800000}, {n:'EcoMaster', v:1200000}, {n:'TraderElite', v:850000},
+      {n:'BalancedPlayer', v:600000}, {n:'RisingStar', v:400000}, {n:'NewRich', v:250000},
+      {n:'StartingUp', v:100000}
+    ],
+    playtime: [
+      {n:'AlwaysOnline', v:4500}, {n:'NoLifePlayer', v:3800}, {n:'DedicatedGamer', v:3200},
+      {n:'24/7Legend', v:2800}, {n:'AddonLover', v:2400}, {n:'NightOwl', v:2000},
+      {n:'WeekendWarrior', v:1600}, {n:'CasualPlayer', v:1200}, {n:'NewMember', v:800},
+      {n:'StarterPlayer', v:400}
+    ]
+  };
+
+  const LABELS = {
+    vote: 'Votes',
+    donate: 'Donasi',
+    balance: 'Gems',
+    playtime: 'Jam'
+  };
+
+  function showLoading() {
+    const body = document.getElementById('lbBody');
+    body.innerHTML = `
+      <div class="loading-state">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Memuat data...</div>
+      </div>
+    `;
+  }
+
+  function showEmpty() {
+    const body = document.getElementById('lbBody');
+    body.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7l3-7z"></path></svg>
+        </div>
+        <div class="empty-text">Belum ada data untuk kategori ini</div>
+      </div>
+    `;
+  }
+
+  function renderLB(data) {
+    const body = document.getElementById('lbBody');
+    const valueLabel = document.getElementById('lbValueLabel');
+
+    valueLabel.textContent = LABELS[currentTab];
+
+    if (!data || data.length === 0) {
+      showEmpty();
+      return;
+    }
+
+    body.innerHTML = data.map((r, i) => {
+      const topClass = i === 0 ? 'top1' : (i === 1 ? 'top2' : (i === 2 ? 'top3' : ''));
+      const badgeClass = i === 0 ? 'gold' : (i === 1 ? 'silver' : (i === 2 ? 'bronze' : ''));
+
+      let val = r.v;
+      if (currentTab === 'donate') {
+        val = 'Rp ' + r.v.toLocaleString('id-ID');
+      } else if (currentTab === 'balance') {
+        val = r.v >= 1000 ? (r.v / 1000).toFixed(1) + 'k' : r.v;
+      } else if (currentTab === 'playtime') {
+        val = r.v >= 1000 ? (r.v / 1000).toFixed(1) + 'k' : r.v + 'h';
+      } else {
+        val = r.v >= 1000 ? (r.v / 1000).toFixed(1) + 'k' : r.v;
+      }
+
+      return `<div class="lb-row ${topClass}">
+        <span style="text-align: center;">
+          <div class="rank-badge ${badgeClass}">#${i + 1}</div>
+        </span>
+        <div class="player-info">
+          <div class="player-avatar" style="background: linear-gradient(135deg, hsl(${(i * 37) % 360}, 70%, 55%), hsl(${(i * 37 + 30) % 360}, 70%, 45%));">
+            ${r.n.charAt(0).toUpperCase()}
+          </div>
+          <div>
+            <div class="player-name">${r.n}</div>
+            <div class="player-tag">@${r.n.toLowerCase()}</div>
+          </div>
+        </div>
+        <div class="value-wrap">
+          <div class="value-num">${val}</div>
+          <div class="value-label">${LABELS[currentTab]}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function loadLeaderboard() {
+    showLoading();
+
+    fetch(API)
+      .then(r => r.json())
+      .then(data => {
+        renderLB(data[currentTab] || DEMO[currentTab]);
+      })
+      .catch(() => {
+        renderLB(DEMO[currentTab]);
+      });
+  }
+
+  function switchTab(tab) {
+    currentTab = tab;
+
+    document.querySelectorAll('.lb-tab').forEach(b => {
+      b.classList.toggle('active', b.dataset.tab === tab);
+    });
+
+    loadLeaderboard();
+  }
+
+  // Tab click handlers
+  document.querySelectorAll('.lb-tab').forEach(tab => {
+    tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+  });
+
+  // Refresh button
+  document.getElementById('refreshBtn').addEventListener('click', loadLeaderboard);
+
+  // Initial load
+  loadLeaderboard();
+
+  // Scroll reveal for leaderboard section
+  const lbSection = document.querySelector('.section.about');
+  lbSection.classList.add('scroll-reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  observer.observe(lbSection);
+})();
+</script>
+</body>
+</html>

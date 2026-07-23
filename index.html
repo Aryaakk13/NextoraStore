@@ -2,262 +2,382 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>NextoraSMP — Store</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nextora — Minecraft Survival Indonesia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Sora:wght@400;500;600;700;800&family=VT323&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=45">
+<style>
+/* IKON SECTIONS */
+.icon-box {
+  width: 48px;
+  height: 48px;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+.icon-box svg { width: 24px; height: 24px; color: #3b82f6; }
+.feature-item:hover .icon-box {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.2);
+}
+
+/* SERVER INFO CARD */
+.info-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.info-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary);
+}
+.info-card-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+.info-card-icon svg { width: 32px; height: 32px; color: white; }
+.info-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 8px;
+}
+.info-card-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #22c55e;
+  margin-bottom: 16px;
+}
+.info-card-status-dot {
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.info-card-details {
+  background: var(--light);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.info-card-detail {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+}
+.info-card-detail:last-child { border-bottom: none; }
+.info-card-detail span:first-child { color: var(--muted); }
+.info-card-detail span:last-child { font-weight: 600; color: var(--dark); }
+.info-card-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px;
+  background: var(--primary);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+.info-card-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+}
+</style>
 </head>
 <body>
 
-<header id="siteHeader">
-  <nav>
-    <div class="logo">
-      <div class="logo-block"></div>
-      <span>NEXTORA<em>SMP</em></span>
-    </div>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#home" class="active">Home</a></li>
-      <li><a href="#ranks">Rank</a></li>
-      <li><a href="#gems">Gems</a></li>
-      <li><a href="#vote">Vote</a></li>
-      <li><a href="#leaderboard">Leaderboard</a></li>
-      <li><a href="#faq">FAQ</a></li>
-    </ul>
-    <div class="nav-cta">
-      <button class="pixel-btn yellow pixel-border" id="ip-btn" onclick="copyIP()">play.nextorasmp.my.id</button>
-      <button class="burger" onclick="toggleMenu()" aria-label="Buka menu" aria-expanded="false" aria-controls="navLinks">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
-</header>
-<div class="nav-scrim" id="navScrim" onclick="toggleMenu()"></div>
-
-<section class="hero" id="home">
-  <div class="hero-grid-bg"></div>
-  <div class="cloud-strip"></div>
-  <div class="floating-block fb1"></div>
-  <div class="floating-block fb2"></div>
-  <div class="floating-block fb3"></div>
-  <div class="floating-block fb4"></div>
-  <div class="hero-glow"></div>
-  <div class="container">
-    <span class="badge" id="statusBadge"><span class="badge-dot" id="statusDot"></span> <span id="statusText">Mengecek status server...</span></span>
-    <h1>Bangun Duniamu di <em>NextoraSMP</em></h1>
-    <p>Survival Multiplayer dengan komunitas ramah, event mingguan, dan ekonomi server yang hidup. Gabung sekarang dan tulis ceritamu sendiri.</p>
-    <div class="hero-cta">
-      <a href="#ranks" class="pixel-btn yellow pixel-border">Lihat Rank</a>
-      <a href="#vote" class="pixel-btn outline pixel-border">Vote Server</a>
-    </div>
-    <div class="ip-card">
-      <span class="ip-label">SERVER IP</span>
-      <span class="mono">play.nextorasmp.my.id</span>
-      <button onclick="copyIP()">Copy IP</button>
-    </div>
-    <div class="stat-row">
-      <div><div class="num" id="statOnline">—</div><div class="lbl">Online Sekarang</div></div>
-      <div><div class="num">11</div><div class="lbl">Total Player</div></div>
-      <div><div class="num">1.21</div><div class="lbl">Java &amp; Bedrock</div></div>
-      <div><div class="num">24/7</div><div class="lbl">Server Uptime</div></div>
-    </div>
-  </div>
-  <div class="hero-divider"></div>
-</section>
-
-<section class="section" id="ranks">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div class="eyebrow">Server Rank</div>
-      <h2>Tingkatkan Pengalaman Bermainmu</h2>
-      <p>Setiap rank memberi akses fitur eksklusif, dari kit harian sampai perk kreatif. Semua pembelian bersifat permanen.</p>
-    </div>
-    <div class="rank-scroll-hint" id="rankScrollHint">Geser untuk lihat semua rank →</div>
-    <div class="rank-grid" id="rankGrid">
-
-      <div class="rank-card reveal">
-        <div class="ore-swatch ore-iron"></div>
-        <h3>IRON — NEXTRA</h3>
-        <div class="rank-price">Rp25K <span>/ sekali bayar</span></div>
-        <ul class="rank-perks">
-          <li>Kit NEXTRA harian</li>
-          <li>Claim Block 5000</li>
-          <li>3 Homes tambahan</li>
-          <li>/kit nextra</li>
-          <li>/tfly</li>
-          <li>/pv & /ax 5 slot</li>
-          <li>/ah 5 slot</li>
-        </ul>
-        <button class="pixel-btn pixel-border" onclick="openRankModal('vip')">Beli Sekarang</button>
-      </div>
-
-      <div class="rank-card featured reveal">
-        <span class="featured-tag">TERLARIS</span>
-        <div class="ore-swatch ore-gold"></div>
-        <h3>GOLD — NEXOR</h3>
-        <div class="rank-price">Rp50K <span>/ sekali bayar</span></div>
-        <ul class="rank-perks">
-          <li>Semua permission NEXTRA</li>
-          <li>Claim Block 8000</li>
-          <li>Kit NEXOR harian</li>
-          <li>6 Homes tambahan</li>
-          <li>/kit nexor &amp;</li>
-          <li>/pv & /ax mendapat 10 slot</li>
-        </ul>
-        <button class="pixel-btn yellow pixel-border" onclick="openRankModal('mvp')">Beli Sekarang</button>
-      </div>
-
-      <div class="rank-card reveal">
-        <div class="ore-swatch ore-diamond"></div>
-        <h3>DIAMOND — NEZITH</h3>
-        <div class="rank-price">Rp100K <span>/ sekali bayar</span></div>
-        <ul class="rank-perks">
-          <li>Semua permission NEXOR</li>
-          <li>Claim Block 12000</li>
-          <li>Kit NEZITH harian</li>
-          <li>/workbench &amp; /enderchest</li>
-          <li>Chat Custom Color</li>
-          <li>10 Homes tambahan</li>
-          <li>/pv & /ax mendapat 15 slot</li>
-        </ul>
-        <button class="pixel-btn pixel-border" onclick="openRankModal('elite')">Beli Sekarang</button>
-      </div>
-
-      <div class="rank-card reveal">
-        <div class="ore-swatch ore-netherite"></div>
-        <h3>NETHERITE — NEXTDYRE</h3>
-        <div class="rank-price">Rp200K <span>/ sekali bayar</span></div>
-        <ul class="rank-perks">
-          <li>Semua permission NEZITH</li>
-          <li>Homes tanpa batas</li>
-          <li>Chat Custom Color</li>
-          <li>Spesial Role Discord</li>
-          <li>Prioritas review event server</li>
-          <li>/fly</li>
-          <li>/pv & /ax mendapat 20 slot</li>
-          <li>Reward &amp; 1.000.000 Balance &amp; Many Key</li>
-        </ul>
-        <button class="pixel-btn pixel-border" onclick="openRankModal('legend')">Beli Sekarang</button>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section class="section alt" id="gems">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div class="eyebrow">Mata Uang Server</div>
-      <h2>Top Up Gems</h2>
-      <p>Gems dipakai untuk belanja di /shop, lelang item langka, dan cosmetic. Makin besar paket, makin hemat harganya.</p>
-    </div>
-    <div class="gems-wrap">
-      <div class="gem-grid" id="gemGrid"></div>
-      <div class="gem-summary reveal">
-        <h3>Ringkasan Pembelian</h3>
-        <div class="sum-row"><span>Paket dipilih</span><strong id="sumPkg">—</strong></div>
-        <div class="sum-row"><span>Jumlah Gems</span><strong id="sumGems">0</strong></div>
-        <div class="sum-row"><span>Bonus Gems</span><strong id="sumBonus">0</strong></div>
-        <div class="sum-total"><span>Total Bayar</span><strong id="sumTotal">Rp0</strong></div>
-        <button class="pixel-btn yellow pixel-border" onclick="openGemsModal()">Checkout</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="vote">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div class="eyebrow">Dukung Server</div>
-      <h2>Vote NextoraSMP</h2>
-      <p>Vote setiap hari di Minecraft-MP, klaim reward gems gratis lewat /vote di dalam server.</p>
-    </div>
-    <div class="vote-grid single">
-      <div class="vote-card reveal">
-        <div class="vote-num">1</div>
-        <h4>Minecraft-MP</h4>
-        <p>Vote harian, reset tiap jam 00:00 WIB. Klaim reward lewat /vote di server.</p>
-        <a href="https://minecraft-mp.com/server-s360847" target="_blank" class="pixel-btn pixel-border">Vote Sekarang</a>
-      </div>
-    </div>
-    <div class="vote-reward">
-      <p><strong>Reward tiap vote</strong>Dapatkan 10 Gems + Balance + Key Gacha</p>
-      <a href="#leaderboard" class="pixel-btn outline pixel-border">Cek Top Voter</a>
-    </div>
-  </div>
-</section>
-
-<section class="section alt" id="leaderboard">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div class="eyebrow">Papan Peringkat</div>
-      <h2>Leaderboard NextoraSMP</h2>
-      <p>Update otomatis setiap jam. Kejar posisi puncak dan dapatkan reward eksklusif tiap akhir musim.</p>
-    </div>
-    <div class="tabs" id="tabsScroll">
-      <button class="tab-btn active" data-tab="vote" onclick="showTab('vote',this)">Top Vote</button>
-      <button class="tab-btn" data-tab="donate" onclick="showTab('donate',this)">Top Donate</button>
-      <button class="tab-btn" data-tab="balance" onclick="showTab('balance',this)">Top Balance</button>
-      <button class="tab-btn" data-tab="playtime" onclick="showTab('playtime',this)">Top Playtime</button>
-    </div>
-    <div class="lb-table reveal">
-      <div class="lb-row head"><span>#</span><span>Pemain</span><span style="text-align:right">Nilai</span></div>
-      <div id="lbBody"></div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="faq">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div class="eyebrow">Bantuan</div>
-      <h2>Pertanyaan Seputar Pembayaran</h2>
-      <p>Baca dulu sebelum checkout supaya prosesnya lancar.</p>
-    </div>
-    <div class="faq-list reveal" id="faqList"></div>
-  </div>
-</section>
-
-<footer>
-  <div class="foot-grid">
-    <div>
-      <h4>NEXTORASMP</h4>
-      <p>Server Survival Multiplayer Indonesia. Fair play, komunitas solid, dan progress yang selalu berarti sejak 2026.</p>
-    </div>
-    <div>
-      <h4>Navigasi</h4>
-      <ul>
-        <li><a href="#ranks">Rank</a></li>
-        <li><a href="#gems">Gems</a></li>
-        <li><a href="#vote">Vote</a></li>
-        <li><a href="#leaderboard">Leaderboard</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Komunitas</h4>
-      <ul>
-        <li><a href="https://dsc.gg/nextorasmp" target="_blank">Discord Resmi</a></li>
-        <li><a href="#faq" >Pusat Bantuan</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="foot-bottom">© 2026 NextoraSMP. Tidak berafiliasi dengan Mojang atau Microsoft.</div>
-</footer>
-
-<!-- ---------- MOBILE STICKY CTA ---------- -->
-<div class="mobile-sticky-cta" id="mobileStickyCta">
-  <a href="#ranks" class="pixel-btn yellow pixel-border">Lihat Rank</a>
-  <button class="pixel-btn pixel-border" onclick="copyIP()">Copy IP</button>
-</div>
-
-<!-- ---------- POPOUT MODAL ---------- -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal-box" id="modalBox"></div>
-</div>
-
-<!-- ---------- TOAST ---------- -->
+<!-- TOAST -->
 <div class="toast-stack" id="toastStack"></div>
 
-<script src="script.js"></script>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">
+        <img src="assets/icon.png" alt="Nextora" class="logo-icon-img">
+        <span>Nextora</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="rank.html">Topup</a></li>
+        <li><a href="leaderboard.html">Peringkat</a></li>
+      </ul>
+      <div class="nav-right"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero scroll-reveal" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="title-line">Bangun.</span>
+        <span class="title-line accent">Survive.</span>
+        <span class="title-line">Kembangkan.</span>
+      </h1>
+      <p class="hero-desc">
+        Server Minecraft survival Indonesia. Bangun base, farming resource, trading item, dan ikut event bareng komunitas. Semua gratis, tanpa pay to win.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-main" onclick="copyIP()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15V5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2"></path></svg>
+          Salin IP
+        </button>
+        <a href="rank.html" class="btn-secondary">Lihat Rank</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-num" id="statOnline">--</span>
+          <span class="stat-label">Online</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">1.21</span>
+          <span class="stat-label">Versi</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">24/7</span>
+          <span class="stat-label">Aktif</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section about scroll-reveal" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-content">
+        <div class="section-label">Tentang</div>
+        <h2 class="section-title">Kenapa Nextora?</h2>
+        <p class="about-text">
+          Server Minecraft survival Indonesia untuk pemain yang ingin bersenang-senang tanpa tekanan. Semua fitur utama bisa dinikmati gratis.
+        </p>
+        <div class="about-features">
+          <div class="feature-item">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            </div>
+            <div>
+              <h4>Base Building</h4>
+              <p>Bangun rumah dan base dengan world protection aktif.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+            </div>
+            <div>
+              <h4>Player Economy</h4>
+              <p>Shop, lelang, dan trading item langka.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </div>
+            <div>
+              <h4>Event Mingguan</h4>
+              <p>Battle, build contest, dan event seru tiap minggu.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            </div>
+            <div>
+              <h4>Java & Bedrock</h4>
+              <p>Main dari HP atau PC - semua bisa join.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">
+          <img src="assets/icon.png" alt="Server" style="width: 64px; height: 64px; object-fit: contain;">
+        </div>
+        <h3>Nextora SMP</h3>
+        <div class="info-card-status">
+          <span class="info-card-status-dot"></span>
+          Online
+        </div>
+        <div class="info-card-details">
+          <div class="info-card-detail"><span>Versi</span><span>Java & Bedrock 1.21</span></div>
+          <div class="info-card-detail"><span>Mode</span><span>Survival</span></div>
+          <div class="info-card-detail"><span>Map</span><span>Custom World</span></div>
+          <div class="info-card-detail"><span>Player</span><span id="statOnline2">-- Online</span></div>
+        </div>
+        <button class="info-card-btn" onclick="copyIP()">
+          play.nextorasmp.my.id
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO -->
+<section class="section howto scroll-reveal">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Cara Gabung</div>
+      <h2 class="section-title">3 Langkah Mudah</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h3>Salin IP</h3>
+          <p>Copy <strong>play.nextorasmp.my.id</strong></p>
+        </div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h3>Buka Minecraft</h3>
+          <p>Pastikan versi 1.21. Multiplayer - Add Server</p>
+        </div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h3>Join & Main!</h3>
+          <p>Connect dan spawn di dunia survival</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="section gallery scroll-reveal" id="gallery">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Gallery</div>
+      <h2 class="section-title">Momen dari Server</h2>
+      <p class="section-desc">Screenshot dan momen seru dari pemain Nextora</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item large">
+        <div class="gallery-placeholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <span>Overview</span>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span>Base</span>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span>Community</span>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <span>Event</span>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span>District</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VOTE -->
+<section class="section vote-section scroll-reveal">
+  <div class="container">
+    <div class="vote-hero">
+      <div class="vote-hero-content">
+        <div class="vote-hero-text" style="text-align: center; width: 100%;">
+          <h3>Dukung Server Nextora</h3>
+          <p>Vote gratis di Minecraft-MP setiap hari dan dapatkan reward menarik!</p>
+        </div>
+      </div>
+      <a href="https://minecraft-mp.com/server-s360847" target="_blank" class="vote-hero-btn">
+        Vote Sekarang
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <img src="assets/icon.png" alt="Nextora" class="logo-icon-img">
+          <span>Nextora</span>
+        </a>
+        <p>Server Minecraft Survival Indonesia. Event mingguan, ekonomi aktif, komunitas solid.</p>
+      </div>
+      <div class="footer-links">
+        <h5>Menu</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="rank.html">Topup</a></li>
+          <li><a href="leaderboard.html">Peringkat</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h5>Komunitas</h5>
+        <ul>
+          <li><a href="https://dsc.gg/nextorasmp" target="_blank">Discord</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">2026 Nextora. Tidak berafiliasi dengan Mojang atau Microsoft.</div>
+  </div>
+</footer>
+
+<script src="script.js?v=41"></script>
 </body>
 </html>

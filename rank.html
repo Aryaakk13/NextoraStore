@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topup & Rank — Nextora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=45">
+<style>
+.gems-icon { width: 48px; height: 48px; background: linear-gradient(135deg, #67e8f9, #06b6d4); border-radius: 14px; margin: 0 auto 12px; }
+.gems-icon svg { width: 24px; height: 24px; color: white; }
+.social-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: white; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 13px; font-weight: 600; color: #0f172a; transition: all 0.2s; }
+.social-btn:hover { border-color: #3b82f6; color: #3b82f6; }
+.discord-btn { background: #5865F2; color: white; border-color: #5865F2; }
+.discord-btn:hover { background: #4752c4; border-color: #4752c4; }
+
+/* Rank Grid */
+.rank-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+.rank-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 24px;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.rank-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary);
+}
+
+.rank-card-popular {
+  border-color: var(--primary);
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.04) 0%, white 100%);
+}
+
+.rank-badge-popular {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--primary);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 50px;
+}
+
+.rank-badge-label {
+  color: white;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 11px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+.rank-card-body { text-align: left; }
+
+.rank-name {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+
+.rank-price {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+.rank-features { margin-bottom: 24px; }
+
+.rank-feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.rank-feature svg { flex-shrink: 0; }
+
+.rank-feature-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.rank-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Gems Grid */
+.gems-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+
+.gems-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 20px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gems-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary);
+}
+
+.gems-card-best {
+  background: rgba(59, 130, 246, 0.04);
+  border: 2px solid var(--primary);
+  position: relative;
+}
+
+.gems-best-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #22c55e;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 50px;
+}
+
+.gems-amount {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+
+.gems-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.gems-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 16px;
+}
+
+.gems-btn {
+  width: 100%;
+  padding: 12px 16px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: auto;
+}
+
+.gems-btn:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.gems-card-best .gems-btn {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.gems-card-best .gems-btn:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+@media (max-width: 900px) {
+  .rank-grid { grid-template-columns: repeat(2, 1fr); }
+  .gems-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .rank-grid { grid-template-columns: 1fr; }
+  .gems-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast-stack" id="toastStack"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">
+        <img src="assets/icon.png" alt="Nextora" class="logo-icon-img">
+        <span>Nextora</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="rank.html" class="active">Topup</a></li>
+        <li><a href="leaderboard.html">Peringkat</a></li>
+      </ul>
+      <div class="nav-right"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="min-height: auto; padding: 100px 0 60px;">
+  <div class="hero-bg"></div>
+  <div class="container">
+    <div class="hero-content" style="text-align: center; max-width: 100%;">
+      <h1 class="hero-title">
+        <span class="title-line">Topup &</span>
+        <span class="title-line accent">Rank</span>
+      </h1>
+      <p class="hero-desc" style="margin: 0 auto;">Upgrade rank permanen dan topup gems</p>
+    </div>
+  </div>
+</section>
+
+<!-- RANK CARDS -->
+<section class="section about">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Server Rank</div>
+      <h2 class="section-title">Pilih Rank</h2>
+    </div>
+    <div class="rank-grid">
+      <!-- IRON -->
+      <div class="rank-card">
+        <div class="rank-badge-label">IRON</div>
+        <div class="rank-card-body">
+          <h3 class="rank-name">NEXTRA</h3>
+          <div class="rank-price">Rp25.000</div>
+          <div class="rank-features">
+            <div class="rank-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 13"></polyline></svg>Kit NXTR daily</div>
+            <div class="rank-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 13"></polyline></svg>Claim Block 5.000</div>
+            <div class="rank-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 13"></polyline></svg>3 Homes + /tfly</div>
+          </div>
+          <button class="btn-secondary rank-btn">Beli</button>
+        </div>
+      </div>
+      <!-- GOLD -->
+      <div class="rank-card rank-card-popular">
+        <div class="rank-badge-popular">Terlaris</div>
+        <div class="rank-badge-label" style="background: linear-gradient(135deg, #fbbf24, #f59e0b);">GOLD</div>
+        <div class="rank-card-body">
+          <h3 class="rank-name">NEXOR</h3>
+          <div class="rank-price">Rp50.000</div>
+          <div class="rank-features">
+            <div class="rank-feature-sub">Semua fitur NEXTRA +</div>
+            <div class="rank-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 13"></polyline></svg>Claim Block 8.000</div>
+            <div class="rank-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 13"></polyline></svg>6 Homes</div>
+          </div>
+          <button class="btn-secondary rank-btn">Beli</button>
+        </div>
+      </div>
+      <!-- DIAMOND -->
+      <div class="rank-card">
+        <div class="rank-badge-label" style="background: linear-gradient(135deg, #67e8f9, #06b6d4);">DIAMOND</div>
+        <div class="rank-card-body">
+          <h3 class="rank-name">NEZITH</h3>
+          <div class="rank-price">Rp100.000</div>
+          <div class="rank-features">
+            <div class="rank-feature-sub">Semua fitur NEXOR +</div>
+            <div class="rank-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 13"></polyline></svg>/workbench & /enderchest</div>
+            <div class="rank-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 13"></polyline></svg>Chat color</div>
+          </div>
+          <button class="btn-secondary rank-btn">Beli</button>
+        </div>
+      </div>
+      <!-- NETHERITE -->
+      <div class="rank-card">
+        <div class="rank-badge-label" style="background: linear-gradient(135deg, #dc2626, #991b1b);">NETHERITE</div>
+        <div class="rank-card-body">
+          <h3 class="rank-name">NEXTDYRE</h3>
+          <div class="rank-price">Rp200.000</div>
+          <div class="rank-features">
+            <div class="rank-feature-sub">Semua fitur NEZITH +</div>
+            <div class="rank-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 13"></polyline></svg>Homes unlimited</div>
+            <div class="rank-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 13"></polyline></svg>/fly + Priority event</div>
+          </div>
+          <button class="btn-secondary rank-btn">Beli</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GEMS -->
+    <div class="section-header" style="margin-top: 80px;">
+      <div class="section-label">Mata Uang</div>
+      <h2 class="section-title">Top Up Gems</h2>
+    </div>
+    <div class="gems-grid">
+      <div class="gems-card">
+        <div class="gems-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 9l10 7 10-7-10-7zM2 15l10 7 10-7 10-7z"></path></svg>
+        </div>
+        <div class="gems-label">Basic</div>
+        <div class="gems-amount">1.000</div>
+        <div class="gems-price">Rp15.000</div>
+        <button class="gems-btn">Beli</button>
+      </div>
+      <div class="gems-card">
+        <div class="gems-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 9l10 7 10-7-10-7zM2 15l10 7 10-7 10-7z"></path></svg>
+        </div>
+        <div class="gems-label">Popular</div>
+        <div class="gems-amount">2.500</div>
+        <div class="gems-price">Rp35.000</div>
+        <button class="gems-btn">Beli</button>
+      </div>
+      <div class="gems-card">
+        <div class="gems-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 9l10 7 10-7-10-7zM2 15l10 7 10-7 10-7z"></path></svg>
+        </div>
+        <div class="gems-label">Popular</div>
+        <div class="gems-amount">5.000</div>
+        <div class="gems-price">Rp65.000</div>
+        <button class="gems-btn">Beli</button>
+      </div>
+      <div class="gems-card gems-card-best">
+        <div class="gems-best-badge">Best</div>
+        <div class="gems-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 9l10 7 10-7-10-7zM2 15l10 7 10-7 10-7z"></path></svg>
+        </div>
+        <div class="gems-label">Premium</div>
+        <div class="gems-amount">10.000</div>
+        <div class="gems-price">Rp115.000</div>
+        <button class="gems-btn">Beli</button>
+      </div>
+      <div class="gems-card">
+        <div class="gems-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 9l10 7 10-7-10-7zM2 15l10 7 10-7 10-7z"></path></svg>
+        </div>
+        <div class="gems-label">Premium</div>
+        <div class="gems-amount">15.000</div>
+        <div class="gems-price">Rp160.000</div>
+        <button class="gems-btn">Beli</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <img src="assets/icon.png" alt="Nextora" class="logo-icon-img">
+          <span>Nextora</span>
+        </a>
+        <p>Server Minecraft Survival Indonesia</p>
+      </div>
+      <div class="footer-links">
+        <h5>Menu</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="rank.html">Topup</a></li>
+          <li><a href="leaderboard.html">Peringkat</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h5>Komunitas</h5>
+        <ul>
+          <li><a href="https://dsc.gg/nextorasmp" target="_blank">Discord</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">2026 Nextora. Tidak berafiliasi dengan Mojang atau Microsoft.</div>
+  </div>
+</footer>
+
+<script src="script.js?v=41"></script>
+</body>
+</html>

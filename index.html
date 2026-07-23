@@ -6,111 +6,10 @@
 <title>Nextora — Minecraft Survival Indonesia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=45">
+<link rel="stylesheet" href="style.css?v=50">
 <style>
-/* IKON SECTIONS */
-.icon-box {
-  width: 48px;
-  height: 48px;
-  background: rgba(59, 130, 246, 0.1);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.3s ease;
-}
-.icon-box svg { width: 24px; height: 24px; color: #3b82f6; }
-.feature-item:hover .icon-box {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.2);
-}
-
-/* SERVER INFO CARD */
-.info-card {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 28px;
-  text-align: center;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.info-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-  border-color: var(--primary);
-}
-.info-card-icon {
-  width: 80px;
-  height: 80px;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 16px;
-}
-.info-card-icon svg { width: 32px; height: 32px; color: white; }
-.info-card h3 {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--dark);
-  margin-bottom: 8px;
-}
-.info-card-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #22c55e;
-  margin-bottom: 16px;
-}
-.info-card-status-dot {
-  width: 8px;
-  height: 8px;
-  background: #22c55e;
-  border-radius: 50%;
-  animation: pulse-dot 2s infinite;
-}
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-.info-card-details {
-  background: var(--light);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
-}
-.info-card-detail {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  font-size: 13px;
-  border-bottom: 1px solid var(--border);
-}
-.info-card-detail:last-child { border-bottom: none; }
-.info-card-detail span:first-child { color: var(--muted); }
-.info-card-detail span:last-child { font-weight: 600; color: var(--dark); }
-.info-card-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 14px;
-  background: var(--primary);
-  color: white;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-}
-.info-card-btn:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+html {
+  scroll-behavior: auto !important;
 }
 </style>
 </head>
@@ -378,6 +277,58 @@
   </div>
 </footer>
 
-<script src="script.js?v=41"></script>
+<script src="script.js?v=50"></script>
+<script>
+// Smooth Scroll Library
+(function() {
+  // Lenis-like smooth scroll implementation
+  let current = 0;
+  let target = 0;
+  let ease = 0.08;
+  let rafId = null;
+
+  function lerp(start, end, factor) {
+    return start + (end - start) * factor;
+  }
+
+  function smoothScroll() {
+    target = window.scrollY;
+    current = lerp(current, target, ease);
+
+    // Apply smooth scroll
+    window.scrollTo(0, current);
+
+    rafId = requestAnimationFrame(smoothScroll);
+  }
+
+  // Start smooth scroll
+  rafId = requestAnimationFrame(smoothScroll);
+
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', function() {
+    if (rafId) cancelAnimationFrame(rafId);
+  });
+})();
+
+// Scroll reveal animation
+(function() {
+  const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+  let observed = new Set();
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !observed.has(entry.target)) {
+        observed.add(entry.target);
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.scroll-reveal').forEach(section => {
+    observer.observe(section);
+  });
+})();
+</script>
 </body>
 </html>

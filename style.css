@@ -177,7 +177,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   align-items: center;
   padding: 100px 0 80px;
   overflow: hidden;
-  background: linear-gradient(180deg, #fff 0%, var(--light) 100%);
 }
 
 .hero-bg {
@@ -186,18 +185,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   background-image: url('assets/background.png');
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.4;
+  border-radius: 0 0 60px 60px;
 }
 
 .hero-grid {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(248,250,252,0.75) 100%),
-    linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
-  background-size: 100% 100%, 48px 48px, 48px 48px;
+  display: none;
 }
 
 .hero-content {
@@ -205,6 +197,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   z-index: 1;
   max-width: 640px;
 }
+
+/* All sections with rounded top corners */
+.section { padding: 80px 0; border-radius: 60px 60px 0 0; margin-top: -60px; position: relative; z-index: 10; }
+.about { background: white; border-radius: 60px 60px 0 0; }
+.howto { background: white; border-radius: 0; margin-top: 0; }
+.gallery { background: white; border-radius: 60px 60px 0 0; }
+.vote-section { background: white; }
 
 /* Server Card in About Section */
 .server-card {

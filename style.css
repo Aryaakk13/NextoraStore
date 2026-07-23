@@ -180,13 +180,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   background: linear-gradient(180deg, #fff 0%, var(--light) 100%);
 }
 
-.hero > .container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 60px;
-}
-
 .hero-bg {
   position: absolute;
   inset: 0;
@@ -211,49 +204,45 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   position: relative;
   z-index: 1;
   max-width: 640px;
-  flex: 1;
 }
 
-/* Server Card in Hero */
-.hero-server-card {
-  position: relative;
-  z-index: 1;
+/* Server Card in About Section */
+.server-card {
   background: white;
   border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 32px;
+  border-radius: 20px;
+  padding: 28px;
   text-align: center;
-  min-width: 280px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
 }
 
-.hero-server-card:hover {
+.server-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 16px 48px rgba(59, 130, 246, 0.15);
   border-color: var(--primary);
 }
 
 .server-card-img {
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   margin: 0 auto 16px;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
   background: linear-gradient(135deg, var(--primary), var(--accent));
-  padding: 16px;
+  padding: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .server-card-img img {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   object-fit: contain;
 }
 
-.hero-server-card h3 {
+.server-card h3 {
   font-size: 18px;
   font-weight: 800;
   color: var(--dark);
@@ -275,10 +264,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   height: 8px;
   background: #22c55e;
   border-radius: 50%;
-  animation: pulse 2s infinite;
+  animation: pulse-dot 2s infinite;
 }
 
-@keyframes pulse {
+@keyframes pulse-dot {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
 }
@@ -294,7 +283,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .server-card-info div {
   display: flex;
   justify-content: space-between;
-  padding: 6px 0;
+  padding: 8px 0;
   font-size: 13px;
   border-bottom: 1px solid var(--border);
 }

@@ -1,4 +1,4 @@
-// NEXTORA SMP - SMOOTH SCRIPT
+// NEXTORA SMP - SCRIPT
 const SERVER_IP = 'play.nextorasmp.my.id';
 
 function copyIP() {
@@ -22,39 +22,15 @@ function showToast(msg) {
 
 async function fetchStatus() {
   const el = document.getElementById('statOnline');
-  const el2 = document.getElementById('statOnline2');
   try {
     const res = await fetch('https://api.mcsrvstat.us/3/' + SERVER_IP);
     const data = await res.json();
     const p = (data?.online) ? (data.players?.online || 0) : 0;
-    if(el) el.textContent = p;
-    if(el2) el2.textContent = p + ' Online';
+    if(el) el.textContent = p + ' Online';
   } catch(e) {
-    if(el) el.textContent = '--';
-    if(el2) el2.textContent = '--';
+    if(el) el.textContent = '-- Online';
   }
 }
-
-// Scroll reveal animation
-(function() {
-  const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-  let observed = new Set();
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !observed.has(entry.target)) {
-        observed.add(entry.target);
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, observerOptions);
-
-  // Observe sections when DOM is ready
-  document.querySelectorAll('.scroll-reveal').forEach(section => {
-    observer.observe(section);
-  });
-})();
 
 document.addEventListener('DOMContentLoaded', () => {
   fetchStatus();

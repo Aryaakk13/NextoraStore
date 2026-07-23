@@ -6,14 +6,12 @@
 <title>Nextora — Minecraft Survival Indonesia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=100">
+<link rel="stylesheet" href="style.css?v=120">
 </head>
 <body>
 
-<!-- TOAST -->
 <div class="toast-stack" id="toastStack"></div>
 
-<!-- NAVBAR -->
 <nav class="navbar">
   <div class="container">
     <div class="navbar-inner">
@@ -31,10 +29,8 @@
   </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero" id="home">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
+  <div class="hero-bg" style="background-image: url('assets/background.png')"></div>
   <div class="container">
     <div class="hero-content">
       <h1 class="hero-title">
@@ -46,10 +42,8 @@
         Server Minecraft survival Indonesia. Bangun base, farming resource, trading item, dan ikut event bareng komunitas. Semua gratis, tanpa pay to win.
       </p>
       <div class="hero-actions">
-        <button class="btn-main" onclick="scrollToAbout()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 5v14M19 12l-7 7-7-7"/>
-          </svg>
+        <button class="btn-main" onclick="lenis.scrollTo('#about')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
           Salin IP
         </button>
         <a href="rank.html" class="btn-secondary">Lihat Rank</a>
@@ -58,7 +52,6 @@
   </div>
 </section>
 
-<!-- ABOUT -->
 <section class="section about" id="about">
   <div class="container">
     <div class="about-grid">
@@ -68,37 +61,37 @@
         <p class="about-text">
           Server Minecraft survival Indonesia untuk pemain yang ingin bersenang-senang tanpa tekanan. Semua fitur utama bisa dinikmati gratis.
         </p>
-        <div class="about-features">
-          <div class="feature-item">
-            <div class="icon-box">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        <div class="features">
+          <div class="feature">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             </div>
             <div>
               <h4>Base Building</h4>
               <p>Bangun rumah dan base dengan world protection aktif.</p>
             </div>
           </div>
-          <div class="feature-item">
-            <div class="icon-box">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
             </div>
             <div>
               <h4>Player Economy</h4>
               <p>Shop, lelang, dan trading item langka.</p>
             </div>
           </div>
-          <div class="feature-item">
-            <div class="icon-box">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             </div>
             <div>
               <h4>Event Mingguan</h4>
               <p>Battle, build contest, dan event seru tiap minggu.</p>
             </div>
           </div>
-          <div class="feature-item">
-            <div class="icon-box">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
             </div>
             <div>
               <h4>Java & Bedrock</h4>
@@ -108,29 +101,23 @@
         </div>
       </div>
       <div class="server-card">
-        <div class="server-card-img">
+        <div class="server-icon">
           <img src="assets/icon.png" alt="Nextora">
         </div>
         <h3>Nextora SMP</h3>
-        <div class="server-card-status">
-          <span class="status-dot"></span>
-          Online
-        </div>
-        <div class="server-card-info">
+        <div class="server-status"><span class="dot"></span> Online</div>
+        <div class="server-info">
           <div><span>Versi</span><span>Java & Bedrock 1.21</span></div>
           <div><span>Mode</span><span>Survival</span></div>
           <div><span>Map</span><span>Custom World</span></div>
           <div><span>Player</span><span id="statOnline">-- Online</span></div>
         </div>
-        <button class="server-card-btn" onclick="copyIP()">
-          play.nextorasmp.my.id
-        </button>
+        <button class="server-btn" onclick="copyIP()">play.nextorasmp.my.id</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- HOW TO -->
 <section class="section howto">
   <div class="container">
     <div class="section-header">
@@ -165,7 +152,6 @@
   </div>
 </section>
 
-<!-- GALLERY -->
 <section class="section gallery" id="gallery">
   <div class="container">
     <div class="section-header">
@@ -176,31 +162,31 @@
     <div class="gallery-grid">
       <div class="gallery-item large">
         <div class="gallery-placeholder">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
           <span>Overview</span>
         </div>
       </div>
       <div class="gallery-item">
         <div class="gallery-placeholder">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           <span>Base</span>
         </div>
       </div>
       <div class="gallery-item">
         <div class="gallery-placeholder">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           <span>Community</span>
         </div>
       </div>
       <div class="gallery-item">
         <div class="gallery-placeholder">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           <span>Event</span>
         </div>
       </div>
       <div class="gallery-item">
         <div class="gallery-placeholder">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
           <span>District</span>
         </div>
       </div>
@@ -208,33 +194,23 @@
   </div>
 </section>
 
-<!-- VOTE -->
-<section class="section vote-section">
+<section class="section vote">
   <div class="container">
     <div class="vote-card">
-      <div class="vote-content">
+      <div class="vote-text">
         <h3>Dukung Server Nextora</h3>
         <p>Vote gratis di Minecraft-MP setiap hari dan dapatkan reward menarik!</p>
       </div>
-      <a href="https://minecraft-mp.com/server-s360847" target="_blank" class="vote-btn">
-        Vote Sekarang
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>
-      </a>
+      <a href="https://minecraft-mp.com/server-s360847" target="_blank" class="vote-btn">Vote Sekarang <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="container">
     <div class="footer-inner">
       <div class="footer-brand">
-        <a href="index.html" class="logo">
-          <img src="assets/icon.png" alt="Nextora" class="logo-icon-img">
-          <span>Nextora</span>
-        </a>
+        <a href="index.html" class="logo"><img src="assets/icon.png" alt="Nextora" class="footer-icon"><span>Nextora</span></a>
         <p>Server Minecraft Survival Indonesia. Event mingguan, ekonomi aktif, komunitas solid.</p>
       </div>
       <div class="footer-links">
@@ -257,24 +233,37 @@
 </footer>
 
 <script src="https://unpkg.com/lenis@1.3.25/dist/lenis.min.js"></script>
-<script src="script.js?v=100"></script>
 <script>
-const lenis = new Lenis({
-  duration: 1.2,
-  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smoothWheel: true,
-});
-
-function raf(time) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
-}
-
+const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t), smoothWheel: true });
+function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
 requestAnimationFrame(raf);
 
-function scrollToAbout() {
-  lenis.scrollTo('#about', { duration: 1.5 });
+function copyIP() {
+  navigator.clipboard.writeText('play.nextorasmp.my.id').catch(()=>{});
+  showToast('IP disalin!');
 }
+
+function showToast(msg) {
+  const stack = document.getElementById('toastStack');
+  if(!stack) return;
+  const el = document.createElement('div');
+  el.className = 'toast-item';
+  el.textContent = msg;
+  stack.appendChild(el);
+  setTimeout(()=>{ el.style.opacity='0'; el.style.transform='translateY(-10px) scale(0.9)'; setTimeout(()=>el.remove(), 300); }, 2500);
+}
+
+async function fetchStatus() {
+  const el = document.getElementById('statOnline');
+  if(!el) return;
+  try {
+    const res = await fetch('https://api.mcsrvstat.us/3/play.nextorasmp.my.id');
+    const data = await res.json();
+    el.textContent = (data?.online ? data.players?.online || 0 : 0) + ' Online';
+  } catch(e) { el.textContent = '-- Online'; }
+}
+
+document.addEventListener('DOMContentLoaded', fetchStatus);
 </script>
 </body>
 </html>
